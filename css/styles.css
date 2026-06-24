@@ -478,6 +478,7 @@ a { color: inherit; text-decoration: none; }
   .svc { padding-top: 26px; margin-top: 26px; }
   .svc:first-child { margin-top: 0; }
   .strengths { grid-template-columns: 1fr; gap: 40px; }
+  .strength p { font-size: 13.5px; line-height: 1.9; }
   .flow { grid-template-columns: repeat(3, 1fr); row-gap: 32px; }
   .flow::before { display: none; }
   .profile { grid-template-columns: 1fr; text-align: center; }
