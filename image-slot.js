@@ -118,6 +118,10 @@
 
   const S_MAX = 5;
   const clampS = (s) => Math.max(1, Math.min(S_MAX, s));
+  function positionToView(pos) {
+    const m = String(pos || '').match(/(-?\d+(?:\.\d+)?)%\s+(-?\d+(?:\.\d+)?)%/);
+    return m ? { x: parseFloat(m[1]) - 50, y: parseFloat(m[2]) - 50 } : { x: 0, y: 0 };
+  }
 
   // Normalize a stored slot value. Pre-reframe sidecars stored a bare
   // data-URL string; newer ones store {u, s, x, y}. Either shape is valid.
@@ -608,10 +612,11 @@
       const url = this._userUrl || srcAttr;
       // Don't clobber an in-flight reframe with a store-triggered re-render.
       if (!this.hasAttribute('data-reframe')) {
+        const fallbackView = positionToView(this.getAttribute('position'));
         this._view = {
           s: stored && Number.isFinite(stored.s) ? clampS(stored.s) : 1,
-          x: stored && Number.isFinite(stored.x) ? stored.x : 0,
-          y: stored && Number.isFinite(stored.y) ? stored.y : 0,
+          x: stored && Number.isFinite(stored.x) ? stored.x : fallbackView.x,
+          y: stored && Number.isFinite(stored.y) ? stored.y : fallbackView.y,
         };
       }
       this._cap.textContent = this.getAttribute('placeholder') || 'Drop an image';

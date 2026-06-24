@@ -1,5 +1,5 @@
 /* =========================================================
-   RIKORUTO — 映像制作リコルト
+   映像制作リコルト
    Editorial monochrome redesign
    ========================================================= */
 
@@ -135,8 +135,8 @@ a { color: inherit; text-decoration: none; }
 .logo { display: inline-flex; align-items: center; gap: 12px; }
 .logo .logo-mark { width: 38px; height: 38px; object-fit: contain; }
 .logo .logo-tx { display: flex; flex-direction: column; line-height: 1.1; }
-.logo .word { font-family: var(--font-en); font-weight: 600; font-size: 19px; letter-spacing: 0.14em; color: var(--ink); }
-.logo .word-jp { font-family: var(--font-jp); font-size: 10.5px; letter-spacing: 0.18em; color: var(--muted); margin-top: 3px; }
+.logo .word { font-family: var(--font-jp); font-weight: 700; font-size: 18px; letter-spacing: 0.04em; color: var(--ink); }
+.logo .word-jp { font-family: var(--font-jp); font-size: 10.5px; letter-spacing: 0.08em; color: var(--muted); margin-top: 3px; }
 
 .nav { display: flex; align-items: center; gap: 34px; }
 .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; margin: 0; padding: 0; }
@@ -312,15 +312,15 @@ a { color: inherit; text-decoration: none; }
 .photo-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-auto-rows: clamp(120px, 13vw, 180px);
+  grid-auto-rows: clamp(145px, 15vw, 220px);
   grid-auto-flow: row dense;
-  gap: 10px;
-  padding: 0 10px;
+  gap: 12px;
+  padding: 0 12px;
 }
 .photo-cell { overflow: hidden; border-radius: 2px; }
 .photo-cell image-slot { width: 100%; height: 100%; display: block; }
 .photo-cell.tall { grid-row: span 2; }
-.photo-cell.wide { grid-column: span 2; }
+.photo-cell.wide { grid-column: span 3; grid-row: span 2; }
 
 /* ---------- Profile ---------- */
 .profile {
@@ -354,6 +354,10 @@ a { color: inherit; text-decoration: none; }
   padding: clamp(28px, 3vw, 38px); transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
 }
 .media-card:hover { border-color: var(--line-2); transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+.media-card-disabled { cursor: default; }
+.media-card-disabled:hover { border-color: var(--line); transform: none; box-shadow: none; }
+.media-card-disabled .media-arr { color: var(--muted); font-size: 11px; letter-spacing: 0.14em; }
+.media-card-disabled:hover .media-arr { transform: none; }
 .media-ico svg { width: 32px; height: 32px; stroke: var(--ink); fill: none; stroke-width: 1.3; }
 .media-en { font-family: var(--font-en); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
 .media-card h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin: 6px 0 0; letter-spacing: 0.03em; }
