@@ -43,6 +43,9 @@ body {
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
+.sp-only { display: none; }
+.pc-only { display: inline; }
+.nowrap { white-space: nowrap; }
 
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
 .section { padding: clamp(72px, 11vw, 132px) 0; }
@@ -487,6 +490,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 560px) {
+  .sp-only { display: block; }
+  .pc-only { display: none; }
   .works-grid { grid-template-columns: 1fr 1fr; gap: 18px 14px; }
   .work-body h3 { font-size: 14px; }
   .photo-grid { grid-template-columns: repeat(2, 1fr); }
