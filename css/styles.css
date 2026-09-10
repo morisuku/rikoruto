@@ -28,6 +28,12 @@
 }
 
 * { box-sizing: border-box; }
+.svc-description { font-size: 14px; line-height: 1.9; margin: 12px 0 18px; }
+.faq-list { max-width: 860px; margin: 0 auto; }
+.faq-list details { border-bottom: 1px solid var(--line-2); padding: 22px 0; }
+.faq-list summary { cursor: pointer; font-weight: 700; color: var(--ink); padding-right: 12px; }
+.faq-list p { margin: 16px 0 0; font-size: 15px; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 5px; }
 html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
 
 body {
