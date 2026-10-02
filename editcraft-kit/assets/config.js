@@ -16,7 +16,7 @@ window.LP_CONFIG = {
   //   発売記念の間は、購入ボタンに ?prefilled_promo_code=<promoCode> を付けて、
   //   決済画面で ¥3,000 引きのクーポンが最初から入った状態にする（期限が来ると Stripe 側で自動で無効）
   stripe: {
-    link: "",                 // 例: https://buy.stripe.com/xxxxxxxx
+    link: "https://buy.stripe.com/fZu28rbLBbNNaMw3w23cc04", // 例: https://buy.stripe.com/xxxxxxxx
     promoCode: "LAUNCH3000",  // Stripe で作るプロモーションコードと同じ文字
   },
 
