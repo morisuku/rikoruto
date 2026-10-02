@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Editcraft Kit — Premiere Pro 編集ツールキット</title>
+<meta name="description" content="無音カット、トランジション配置、モーション＋SE、イージング、mogrt管理、ズーム演出。Premiere Pro の編集を速くする6つのツールを1つのパネルに。AI（MCP）からの自動編集にも対応。買い切り。">
+<meta property="og:title" content="Editcraft Kit — Premiere Pro 編集ツールキット">
+<meta property="og:description" content="Premiere Pro の編集を速くする6つのツールを1つのパネルに。買い切り。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rikoruto.jp/editcraft-kit/">
+<link rel="canonical" href="https://rikoruto.jp/editcraft-kit/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/kit-plugin@2x.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=JetBrains+Mono:wght@500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/config.js"></script>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/kit-plugin@2x.png" alt=""><b>EDITCRAFT KIT</b></a>
+    <nav class="nav-links">
+      <a href="#tools">ツール</a>
+      <a href="#ai">AI 連携</a>
+      <a href="#price">価格</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
+    <a class="btn btn-primary btn-sm js-buy" href="#price">購入する</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero" style="padding-bottom:56px">
+  <div class="wrap">
+    <div>
+      <span class="badge js-sale-only"><i></i><span class="js-badge-text">LAUNCH SALE</span> <span class="js-sale-left"></span></span>
+      <h1>Premiere Pro の<br>くり返し作業を、<br><em>1クリック</em>に。</h1>
+      <p class="lede">無音カット、トランジション配置、モーション＋効果音、イージング、mogrt 管理、ズーム演出。編集者が毎日やる作業を、6つのツールにして1つのパネルにまとめました。AI に頼んで編集を進めることもできます。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg js-buy" href="#price">今すぐ購入</a>
+        <div class="price-tag">
+          <span class="now js-now">¥4,980</span>
+          <span class="was-wrap js-sale-only"><small>通常</small><span class="was js-was">¥7,980</span></span>
+          <span class="tax">税込・買い切り</span>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <span>サブスクなし</span><span>1.x のアップデート無料</span><span>Windows / Mac</span><span>作品の商用利用OK</span>
+      </div>
+    </div>
+
+    <!-- interactive panel mock -->
+    <div class="panel" id="panel" aria-label="Editcraft Kit パネルのイメージ">
+      <div class="rail" role="tablist">
+        <button data-v="sc"   style="--c:#34d399" class="on" title="Silence Cut"><img src="assets/tool-sc.png" alt="Silence Cut"></button>
+        <button data-v="ts"   style="--c:#22d3ee" title="Transition Stamp"><img src="assets/tool-ts.png" alt="Transition Stamp"></button>
+        <button data-v="se"   style="--c:#f472b6" title="SEtMotion"><img src="assets/tool-se.png" alt="SEtMotion"></button>
+        <button data-v="ease" style="--c:#ff9f43" title="EaseCraft"><img src="assets/tool-ease.png" alt="EaseCraft"></button>
+        <button data-v="mg"   style="--c:#60a5fa" title="Mogrt Manager"><img src="assets/tool-mg.png" alt="Mogrt Manager"></button>
+        <button data-v="fc"   style="--c:#a78bfa" title="Focus"><img src="assets/tool-fc.png" alt="Focus"></button>
+      </div>
+      <div class="main">
+        <div class="head"><div><b class="js-pn">Silence Cut</b><small class="js-ps">SILENCE · NOISE · FILLER</small></div><span class="ver">v1.0</span></div>
+        <div class="body">
+          <!-- SC -->
+          <div class="view on" data-view="sc">
+            <div class="hud-box"><div class="hud-label">WAVEFORM <em>14 区間を検出</em></div><svg class="wave" id="wave" viewBox="0 0 300 64" preserveAspectRatio="none"></svg></div>
+            <div class="chip-row"><span class="chip on">無音</span><span class="chip on">物音</span><span class="chip on">えー・あの</span><span class="chip">言い直し</span></div>
+            <div class="hud-box"><div class="hud-label">THRESHOLD <em>-38 dB</em></div><div style="height:4px;border-radius:2px;background:linear-gradient(90deg,var(--ac) 62%,rgba(255,255,255,.1) 62%)"></div></div>
+            <div class="hud-row" style="margin-top:auto"><div class="hud-btn" style="opacity:.6">解析</div><div class="hud-btn">カット済みシーケンスを作成</div></div>
+          </div>
+          <!-- TS -->
+          <div class="view" data-view="ts">
+            <div class="hud-box"><div class="hud-label">STAMPS <em>再生ヘッドに配置</em></div>
+              <div class="tiles"><div class="on">Whip L</div><div>Zoom In</div><div>Glitch</div><div>テロップ＋SE</div><div>Flash</div><div>Slide Up</div></div></div>
+            <div class="hud-btn" style="margin-top:auto">▶ 再生ヘッドにスタンプ</div>
+          </div>
+          <!-- SE -->
+          <div class="view" data-view="se">
+            <div class="hud-box"><div class="hud-label">PRESETS <em>モーション＋SE</em></div>
+              <div class="chip-row"><span class="chip on">ポップイン＋ポン</span><span class="chip">シェイク＋ドン</span><span class="chip">スライド＋シュッ</span><span class="chip">バウンス</span><span class="chip">音声エフェクト一式</span></div></div>
+            <div class="hud-btn" style="margin-top:auto">選択クリップに適用</div>
+          </div>
+          <!-- EASE -->
+          <div class="view" data-view="ease">
+            <div class="hud-box"><div class="hud-label">BEZIER <em>.16, 1, .3, 1</em></div>
+              <svg viewBox="0 0 200 110" style="width:100%;height:120px"><path d="M10 100 H190 M10 10 V100" stroke="rgba(255,255,255,.1)"/><path d="M10 100 C42 0, 70 10, 190 10" fill="none" stroke="var(--ac)" stroke-width="2.5"/><line x1="10" y1="100" x2="42" y2="0" stroke="rgba(255,159,67,.4)"/><line x1="190" y1="10" x2="70" y2="10" stroke="rgba(255,159,67,.4)"/><circle cx="42" cy="0" r="4" fill="var(--ac)" transform="translate(0 4)"/><circle cx="70" cy="10" r="4" fill="var(--ac)"/></svg></div>
+            <div class="chip-row"><span class="chip on">Expo Out</span><span class="chip">Back</span><span class="chip">★ お気に入り</span></div>
+            <div class="hud-btn" style="margin-top:auto">キーフレームに適用</div>
+          </div>
+          <!-- MG -->
+          <div class="view" data-view="mg">
+            <div class="hud-box" style="padding:8px 10px;font-size:11px;color:rgba(200,212,228,.5)">🔍 テロップ</div>
+            <div class="tiles"><div class="on">見出し A</div><div>下三分の一</div><div>吹き出し</div><div>強調テロップ</div><div>カウント</div><div>エンドカード</div></div>
+            <div class="hud-btn" style="margin-top:auto">再生ヘッドに配置（SE 付き）</div>
+          </div>
+          <!-- FC -->
+          <div class="view" data-view="fc">
+            <div class="hud-box"><div class="hud-label">PREVIEW <em>マウスで倍率・位置</em></div>
+              <svg viewBox="0 0 160 90" style="width:100%;height:auto;display:block;border-radius:3px;background:#0d1626"><rect x="1" y="1" width="158" height="88" fill="none" stroke="rgba(255,255,255,.12)"/><rect x="18" y="14" width="40" height="22" rx="2" fill="rgba(255,255,255,.06)"/><rect x="18" y="44" width="110" height="5" rx="2" fill="rgba(255,255,255,.07)"/><rect x="18" y="54" width="90" height="5" rx="2" fill="rgba(255,255,255,.07)"/><rect x="74" y="34" width="66" height="37" fill="rgba(167,139,250,.12)" stroke="var(--ac)" stroke-dasharray="3 2"/></svg></div>
+            <div class="chip-row"><span class="chip on">なめらか</span><span class="chip">ゆっくり止まる</span><span class="chip">等速</span></div><div class="hud-btn" style="margin-top:auto">適用</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAINS ================= -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">WHY</p>
+      <h2>編集時間の多くは、「同じ操作のくり返し」です</h2>
+      <p>考える作業に時間を使えるように、手を動かすだけの作業をツールに任せましょう。</p>
+    </div>
+    <div class="pains">
+      <div class="pain" style="--ac:var(--green)"><p class="q">無音を1つずつカットしている</p><p class="a">→ <b>Silence Cut</b> が無音・物音・「えー」を見つけて、カット済みのシーケンスを作ります。元のシーケンスはそのまま残ります。</p></div>
+      <div class="pain" style="--ac:var(--cyan)"><p class="q">毎回同じトランジションを組み直している</p><p class="a">→ <b>Transition Stamp</b> に一度登録すれば、再生ヘッドの位置に1クリックで置けます。</p></div>
+      <div class="pain" style="--ac:var(--pink)"><p class="q">動きと効果音をセットで付けるのが面倒</p><p class="a">→ <b>SEtMotion</b> がキーフレームと効果音をまとめて適用します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOOLS ================= -->
+<section id="tools">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">6 TOOLS · 1 PANEL</p>
+      <h2>入っている6つのツール</h2>
+      <p>どれも、毎日の編集で実際に使うために作ったツールです。</p>
+    </div>
+    <div class="tools">
+
+      <article class="tool reveal" style="--c:#34d399">
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120"><g id="tv-sc"></g></svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-sc.png" alt=""><div><h3>Silence Cut</h3><small>無音・物音・つなぎ言葉の自動カット</small></div></div>
+          <p>音声を解析して、不要な間を取り除いたシーケンスを新しく作ります。元のシーケンスには手を加えません。</p>
+          <ul><li>複数の音声トラックがある画面録画にも対応</li><li>文字起こし（任意）で「えー」「あの」や物音も検出</li><li>どれくらい間を残すか、細かく調整できる</li></ul>
+        </div>
+      </article>
+
+      <article class="tool reveal" style="--c:#22d3ee">
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120">
+            <g stroke="rgba(255,255,255,.08)"><line x1="0" y1="40" x2="300" y2="40"/><line x1="0" y1="72" x2="300" y2="72"/><line x1="0" y1="104" x2="300" y2="104"/></g>
+            <rect x="10" y="78" width="132" height="22" rx="2" fill="rgba(96,165,250,.25)"/><rect x="146" y="78" width="144" height="22" rx="2" fill="rgba(96,165,250,.25)"/>
+            <rect x="122" y="46" width="44" height="22" rx="2" fill="rgba(34,211,238,.35)" stroke="#22d3ee"/><text x="144" y="61" fill="#eaf6ff" font-size="9" text-anchor="middle" font-family="monospace">WHIP</text>
+            <rect x="122" y="14" width="44" height="22" rx="2" fill="rgba(34,211,238,.18)" stroke="rgba(34,211,238,.6)"/><text x="144" y="29" fill="#c8d4e4" font-size="9" text-anchor="middle" font-family="monospace">SE</text>
+            <line x1="144" y1="4" x2="144" y2="116" stroke="#f87171" stroke-width="1.5"/><path d="M139 4h10l-5 6z" fill="#f87171"/>
+          </svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-ts.png" alt=""><div><h3>Transition Stamp</h3><small>トランジション・テロップ＋SE を1クリック配置</small></div></div>
+          <p>調整レイヤーで作ったトランジションや、テロップと効果音のセットを「スタンプ」として登録。再生ヘッドの位置にそのまま置けます。</p>
+          <ul><li>切り替えの境目に再生ヘッドを置いて1クリック</li><li>登録したときの位置関係・長さのまま配置</li></ul>
+        </div>
+      </article>
+
+      <article class="tool reveal" style="--c:#f472b6">
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120">
+            <rect x="20" y="20" width="260" height="34" rx="3" fill="rgba(244,114,182,.15)" stroke="rgba(244,114,182,.5)"/><text x="30" y="41" fill="#eaf6ff" font-size="10" font-family="sans-serif">テロップ</text>
+            <g fill="#f472b6"><path d="M90 74l6 6-6 6-6-6z"/><path d="M130 74l6 6-6 6-6-6z"/><path d="M170 74l6 6-6 6-6-6z"/></g>
+            <line x1="20" y1="80" x2="280" y2="80" stroke="rgba(255,255,255,.08)"/>
+            <rect x="84" y="96" width="70" height="14" rx="2" fill="rgba(52,211,153,.25)"/><text x="90" y="106" fill="#a7f3d0" font-size="8" font-family="monospace">♪ pop.wav</text>
+          </svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-se.png" alt=""><div><h3>SEtMotion</h3><small>モーション＋効果音をまとめて適用</small></div></div>
+          <p>選択したクリップに、キーフレームの動きと効果音を一度に付けます。自分の作った動きをプリセットとして登録できます。</p>
+          <ul><li>ポップイン、シェイク、スライドなどをプリセット化</li><li>音声エフェクトの設定一式もプリセットにできる</li></ul>
+        </div>
+      </article>
+
+      <article class="tool reveal" style="--c:#ff9f43">
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120">
+            <path d="M40 104H270M40 12V104" stroke="rgba(255,255,255,.1)"/>
+            <path d="M40 104C90 104,110 14,270 14" fill="none" stroke="rgba(255,255,255,.18)" stroke-dasharray="3 3"/>
+            <path d="M40 104C82 -6,128 14,270 14" fill="none" stroke="#ff9f43" stroke-width="2.5"/>
+            <line x1="40" y1="104" x2="82" y2="-6" stroke="rgba(255,159,67,.4)"/><circle cx="82" cy="2" r="4" fill="#ff9f43"/>
+            <line x1="270" y1="14" x2="128" y2="14" stroke="rgba(255,159,67,.4)"/><circle cx="128" cy="14" r="4" fill="#ff9f43"/>
+          </svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-ease.png" alt=""><div><h3>EaseCraft</h3><small>キーフレームのイージング</small></div></div>
+          <p>ベジェ曲線をドラッグして、キーフレームの加速・減速を作ります。After Effects のような気持ちいい動きを Premiere で。</p>
+          <ul><li>プリセットとお気に入り</li><li>動きを GIF で書き出して共有</li></ul>
+        </div>
+      </article>
+
+      <article class="tool reveal" style="--c:#60a5fa">
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120">
+            <rect x="20" y="10" width="260" height="18" rx="3" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)"/><text x="30" y="23" fill="#66748a" font-size="9" font-family="sans-serif">🔍 テロップ</text>
+            <g fill="rgba(96,165,250,.14)" stroke="rgba(96,165,250,.35)">
+              <rect x="20" y="38" width="80" height="34" rx="3"/><rect x="110" y="38" width="80" height="34" rx="3" stroke="#60a5fa" stroke-width="2"/><rect x="200" y="38" width="80" height="34" rx="3"/>
+              <rect x="20" y="80" width="80" height="34" rx="3"/><rect x="110" y="80" width="80" height="34" rx="3"/><rect x="200" y="80" width="80" height="34" rx="3"/></g>
+          </svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-mg.png" alt=""><div><h3>Mogrt Manager</h3><small>mogrt の一覧・検索・配置</small></div></div>
+          <p>手持ちの mogrt（モーショングラフィックステンプレート）をプレビュー付きで一覧にして、検索して、すぐ配置できます。</p>
+          <ul><li>mogrt ごとに効果音を紐づけて同時に配置</li><li>フォルダを追加して、まとめて一覧</li></ul>
+        </div>
+      </article>
+
+      <article class="tool reveal" style="--c:#a78bfa">
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120">
+            <rect x="40" y="8" width="220" height="104" rx="3" fill="#0d1626" stroke="rgba(255,255,255,.12)"/>
+            <rect x="60" y="24" width="60" height="30" rx="2" fill="rgba(255,255,255,.06)"/><rect x="60" y="64" width="150" height="7" rx="2" fill="rgba(255,255,255,.07)"/><rect x="60" y="78" width="120" height="7" rx="2" fill="rgba(255,255,255,.07)"/>
+            <rect x="136" y="50" width="104" height="52" fill="rgba(167,139,250,.12)" stroke="#a78bfa" stroke-dasharray="4 3"/>
+            <path d="M236 98l10 10M246 100v8h-8" stroke="#a78bfa" fill="none" stroke-width="1.5"/>
+          </svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-fc.png" alt=""><div><h3>Focus</h3><small>ズーム・パンのカメラワーク</small></div></div>
+          <p>今のフレームを取り込んで、マウスで倍率と位置を決めるだけ。ズームやパンのキーフレームを作ります。解説動画や画面録画に。</p>
+          <ul><li>動き方は「なめらか」「ゆっくり止まる」「等速」から選べる</li><li>ブラーの強さも指定でき、複数の動きを続けて登録できる</li></ul>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ONE PANEL ================= -->
+<section class="alt">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">ONE PANEL</p>
+      <h2 style="font-size:clamp(24px,3.4vw,34px);margin:12px 0 22px">パネルは1つだけ。<br>アイコンで切り替え。</h2>
+      <div class="points">
+        <div class="point"><span class="n">01</span><div><h3>ワークスペースが散らからない</h3><p>6つのツールが1つのパネルに入っています。パネルの幅に合わせて、アイコンは上か左に並びます。</p></div></div>
+        <div class="point"><span class="n">02</span><div><h3>インストールは1回</h3><p>ZIP の中のインストーラーを実行するだけ。必要な ffmpeg も案内に沿って入ります。</p></div></div>
+        <div class="point"><span class="n">03</span><div><h3>旧バージョンからの引き継ぎ</h3><p>単体版のツールを使っていた方は、プリセットや設定を HOME 画面から引き継げます。</p></div></div>
+      </div>
+    </div>
+    <div class="panel" style="min-height:300px;--ac:#e6edf7" aria-hidden="true">
+      <div class="rail">
+        <button class="on" style="--c:#e6edf7"><img src="assets/tool-home.png" alt=""></button>
+        <button style="--c:#22d3ee"><img src="assets/tool-ts.png" alt=""></button>
+        <button style="--c:#f472b6"><img src="assets/tool-se.png" alt=""></button>
+        <button style="--c:#ff9f43"><img src="assets/tool-ease.png" alt=""></button>
+        <button style="--c:#34d399"><img src="assets/tool-sc.png" alt=""></button>
+        <button style="--c:#60a5fa"><img src="assets/tool-mg.png" alt=""></button>
+        <button style="--c:#a78bfa"><img src="assets/tool-fc.png" alt=""></button>
+      </div>
+      <div class="main">
+        <div class="head"><div><b>Home</b><small>SETTINGS · UPDATE · AI</small></div><span class="ver">v1.0</span></div>
+        <div class="body">
+          <div class="hud-box"><div class="hud-label">HELPER <em style="color:var(--green)">● 接続中</em></div>Silence Cut 用の補助プログラム</div>
+          <div class="hud-box"><div class="hud-label">AI 連携 <em style="color:var(--green)">● ON</em></div>Claude / Codex 用の設定をコピー</div>
+          <div class="hud-box"><div class="hud-label">UPDATE <em>最新です</em></div>旧プラグインから引き継ぐ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AI ================= -->
+<section id="ai">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow" style="color:var(--green)">AI × PREMIERE</p>
+      <h2 style="font-size:clamp(24px,3.4vw,34px);margin:12px 0 18px">AI に頼むと、<br>編集が進む。</h2>
+      <p style="color:var(--ink-2)">AI 連携（MCP）に対応しています。Claude Desktop や Codex などの AI アプリから、キットと Premiere Pro を操作できます。「無音を切って、テロップと効果音を付けて」と頼めば、AI がツールを順番に使って作業します。</p>
+      <div class="ai-list">
+        <span>無音の解析とカット</span><span>文字起こしから言い直しを判断</span>
+        <span>スタンプ・テロップの配置</span><span>モーション・イージングの適用</span>
+        <span>mogrt の検索と配置</span><span>シーケンス・マーカー操作</span>
+      </div>
+      <p class="ai-note">※ AI アプリは別途ご用意ください（Claude Desktop・Codex など MCP 対応のもの）。AI 連携を使わなくても、すべてのツールは手で使えます。</p>
+    </div>
+    <div class="chat reveal" aria-label="AI 連携の会話例">
+      <div class="bar"><i></i><i></i><i></i><span>AI アプリでの会話例</span></div>
+      <div class="log">
+        <div class="msg you">今のシーケンスの無音と言い直しをカットして。そのあと、話題が変わるところに見出しテロップと効果音を入れて。</div>
+        <div class="call"><b>analyze_silence</b> 無音を解析（文字起こし付き）</div>
+        <div class="call"><b>cut_silence</b> カット済みシーケンスを作成</div>
+        <div class="call"><b>insert_mogrt</b> 見出しテロップ × 4（SE 付き）</div>
+        <div class="msg ai">カット済みのシーケンスを作りました。言い直しと判断した 3 か所も取り除いています。話題の切り替わり 4 か所に見出しテロップと効果音を入れました。元のシーケンスは残してあります。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICE ================= -->
+<section id="price" class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">PRICE</p>
+      <h2>一度買えば、ずっと使えます</h2>
+      <p>月額料金はありません。1.x のアップデートはすべて無料で受け取れます。</p>
+    </div>
+
+    <div class="price-card">
+      <span class="badge ribbon js-sale-only"><i></i>発売記念価格</span>
+      <h3>EDITCRAFT KIT</h3>
+      <p class="sub">Premiere Pro 用 6ツール＋AI 連携</p>
+      <div class="price-big"><span class="now js-now">¥4,980</span><span class="was-wrap js-sale-only"><small>通常</small><span class="was js-was">¥7,980</span></span></div>
+      <p class="once">税込・買い切り（追加料金なし）</p>
+      <div class="js-sale-only js-countdown">
+        <div class="countdown" id="cd"><div><b>--</b><small>DAYS</small></div><div><b>--</b><small>HOURS</small></div><div><b>--</b><small>MIN</small></div><div><b>--</b><small>SEC</small></div></div>
+        <p class="cd-label">発売記念価格は <span class="js-end"></span> まで</p>
+      </div>
+      <ul class="incl">
+        <li>6つのツール（Silence Cut / Transition Stamp / SEtMotion / EaseCraft / Mogrt Manager / Focus）</li>
+        <li>AI 連携（MCP サーバー同梱）</li>
+        <li>Windows 版・Mac 版の両方（1キーで2台まで）</li>
+        <li>1.x のアップデートを無料で</li>
+        <li>作った動画は商用利用OK</li>
+        <li>説明書・Discord でのサポート</li>
+      </ul>
+      <a class="btn btn-primary btn-lg js-buy" href="#">購入する</a>
+      <p class="promo-note js-promo" hidden>決済画面でクーポン <b class="js-promo-code"></b>（<span class="js-promo-off"></span> 引き）が自動で適用されます</p>
+      <p class="fine">決済は Stripe で安全に行われます。購入後すぐにライセンスキーが発行され、ダウンロードできます。</p>
+    </div>
+
+    <div class="steps">
+      <div class="step"><span class="n">STEP 01</span><h3>購入</h3><p>「購入する」から Stripe の決済画面へ。クレジットカードなどで支払います。</p></div>
+      <div class="step"><span class="n">STEP 02</span><h3>キーとダウンロード</h3><p>支払いが終わると、ライセンスキーとダウンロードリンクが表示されます。同じ内容がメールでも届きます。</p></div>
+      <div class="step"><span class="n">STEP 03</span><h3>インストール</h3><p>ZIP を展開してインストーラーを実行。Premiere Pro でパネルを開き、キーを入力すれば使えます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPECS ================= -->
+<section>
+  <div class="wrap" style="max-width:820px">
+    <div class="sec-head"><p class="eyebrow">REQUIREMENTS</p><h2>動作環境</h2></div>
+    <table class="specs">
+      <tr><th>対応ソフト</th><td>Adobe Premiere Pro 26.3 以降</td></tr>
+      <tr><th>OS</th><td>Windows 10 / 11<br>macOS（Apple Silicon / Intel）</td></tr>
+      <tr><th>Silence Cut</th><td>無音カットには ffmpeg が必要です（インストール時に案内します）。<br>物音・つなぎ言葉のカットには、文字起こし環境（任意・約 1.6GB）を追加で入れます。</td></tr>
+      <tr><th>AI 連携</th><td>MCP に対応した AI アプリ（Claude Desktop、Codex など）。使わなくてもツールは動きます。</td></tr>
+      <tr><th>言語</th><td>日本語</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="sec-head center"><p class="eyebrow">FAQ</p><h2>よくある質問</h2></div>
+    <div class="faq">
+      <details><summary>サブスク（月額）ですか？</summary><p>いいえ、買い切りです。一度購入すれば追加料金なしで使い続けられます。1.x のアップデートも無料です。</p></details>
+      <details><summary>アップデートはどうやって受け取りますか？</summary><p>購入時のメールに書かれたダウンロードリンクから、いつでも最新版をダウンロードできます。ライセンスキーはそのまま使えます。新しいバージョンは X と Discord でもお知らせします。</p></details>
+      <details><summary>ライセンスキーをなくしました</summary><p>購入時に Stripe と販売者から届いたメールをご確認ください。見つからない場合は、購入したメールアドレスを添えてお問い合わせいただければ再送します。</p></details>
+      <details><summary>何台の PC で使えますか？</summary><p>1つのライセンスキーで2台まで使えます（Windows と Mac の組み合わせも OK）。PC を買い替えたときは、パネルの HOME から古い PC の登録を外せば、新しい PC で使えます。</p></details>
+      <details><summary>Premiere Pro の古いバージョンでも使えますか？</summary><p>Premiere Pro 26.3 以降が必要です。それより前のバージョンでは動きません。</p></details>
+      <details><summary>Mac で使えますか？</summary><p>使えます。ZIP は Windows 用と Mac 用に分かれているので、お使いの OS の方をダウンロードしてください。</p></details>
+      <details><summary>作った動画を仕事（商用）で使えますか？</summary><p>はい。キットを使って作った動画は、YouTube の収益化や案件など、商用で自由にお使いいただけます。</p></details>
+      <details><summary>AI 連携は必須ですか？</summary><p>いいえ。すべてのツールはパネルから手で使えます。AI 連携は、Claude Desktop などで編集を自動化したい方向けの機能です。</p></details>
+      <details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金は原則お受けしていません。動作環境を満たしているのに動かない場合は、Discord または問い合わせ先までご連絡ください。</p></details>
+      <details><summary>領収書はもらえますか？</summary><p>決済後、Stripe から購入時のメールアドレスに領収書が届きます。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="final">
+  <div class="wrap">
+    <h2>編集を、もっと速く。</h2>
+    <p>6つのツールと AI 連携が、<span class="js-now">¥4,980</span> の買い切りで。</p>
+    <a class="btn btn-primary btn-lg js-buy" href="#price">Editcraft Kit を購入する</a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/kit-plugin@2x.png" alt=""><b style="font-size:13px">EDITCRAFT KIT</b></a>
+    <nav>
+      <a href="legal.html#tokusho">特定商取引法に基づく表記</a>
+      <a href="legal.html#terms">利用規約</a>
+      <a href="legal.html#privacy">プライバシー</a>
+      <a class="js-x" href="#">X</a>
+      <a class="js-yt" href="#">YouTube</a>
+      <a class="js-dc" href="#">Discord</a>
+    </nav>
+    <p style="width:100%">運営: <a href="https://rikoruto.jp/">映像制作リコルト</a>　© 2026 Rikoruto. Adobe Premiere Pro は Adobe の商標です。本製品は Adobe とは関係ありません。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const C = window.LP_CONFIG || {};
+  const yen = n => "¥" + n.toLocaleString("ja-JP");
+  const end = C.saleEnd ? new Date(C.saleEnd) : null;
+  const onSale = () => end && Date.now() < end.getTime();
+  // Stripe のリンクが未設定 = 発売前。価格は見せるが、カウントダウンと購入ボタンは「近日発売」にする
+  const S = C.stripe || {};
+  const ready = !!S.link;
+  // 発売記念の間はクーポンを最初から入れた決済画面を開く
+  const buyUrl = (sale) => !S.link ? "" : (sale && S.promoCode
+    ? S.link + (S.link.includes("?") ? "&" : "?") + "prefilled_promo_code=" + encodeURIComponent(S.promoCode)
+    : S.link);
+
+  // ----- price / sale state -----
+  function applyPrice() {
+    const sale = onSale();
+    document.querySelectorAll(".js-sale-only").forEach(el => { el.hidden = !sale; });
+    document.querySelectorAll(".js-countdown").forEach(el => { el.hidden = !sale || !ready; });
+    const badge = document.querySelector(".js-badge-text");
+    if (badge) badge.textContent = ready ? "LAUNCH SALE" : "COMING SOON";
+    document.querySelectorAll(".js-now").forEach(el => { el.textContent = yen(sale ? C.price.sale : C.price.regular); });
+    document.querySelectorAll(".js-was").forEach(el => { el.textContent = yen(C.price.regular); });
+    const link = buyUrl(sale);
+    document.querySelectorAll(".js-promo").forEach(el => {
+      el.hidden = !(sale && ready && S.promoCode);
+      el.querySelectorAll(".js-promo-code").forEach(c => { c.textContent = S.promoCode || ""; });
+      el.querySelectorAll(".js-promo-off").forEach(c => { c.textContent = yen(C.price.regular - C.price.sale); });
+    });
+    document.querySelectorAll(".js-buy").forEach(el => {
+      if (el.closest(".nav") || el.closest(".hero") || el.closest(".final")) {
+        el.href = "#price";
+        if (!ready) el.textContent = el.closest(".nav") ? "近日発売" : "近日発売・価格を見る";
+        return;
+      }
+      if (link) { el.href = link; el.removeAttribute("aria-disabled"); }
+      else { el.href = "#price"; el.setAttribute("aria-disabled", "true"); el.textContent = "近日発売"; }
+    });
+    if (end) {
+      const d = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "long", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit" }).format(end);
+      document.querySelectorAll(".js-end").forEach(el => { el.textContent = d; });
+    }
+  }
+  applyPrice();
+
+  // ----- countdown -----
+  const cd = document.querySelectorAll("#cd b");
+  const left = document.querySelector(".js-sale-left");
+  function tick() {
+    if (!onSale()) { applyPrice(); return; }
+    if (!ready) { if (left) left.textContent = ""; return; }
+    let s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+    const v = [Math.floor(s / 86400), Math.floor(s % 86400 / 3600), Math.floor(s % 3600 / 60), s % 60];
+    cd.forEach((b, i) => { b.textContent = String(v[i]).padStart(2, "0"); });
+    if (left) left.textContent = "· 残り " + v[0] + "日 " + v[1] + "時間";
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ----- social links -----
+  [["js-x", C.xUrl], ["js-yt", C.youtubeUrl], ["js-dc", C.discordUrl]].forEach(([c, u]) => {
+    document.querySelectorAll("." + c).forEach(a => { if (u) a.href = u; else a.hidden = true; });
+  });
+
+  // ----- waveform (deterministic) -----
+  function rnd(seed) { return () => (seed = (seed * 16807) % 2147483647) / 2147483647; }
+  function wave(g, w, h, cuts, ac) {
+    const r = rnd(7), n = 120, bw = w / n, ns = "http://www.w3.org/2000/svg";
+    for (const [a, b] of cuts) {
+      const rect = document.createElementNS(ns, "rect");
+      rect.setAttribute("x", a * bw); rect.setAttribute("y", 0); rect.setAttribute("width", (b - a) * bw); rect.setAttribute("height", h);
+      rect.setAttribute("fill", "rgba(248,113,113,.14)"); g.appendChild(rect);
+    }
+    for (let i = 0; i < n; i++) {
+      const quiet = cuts.some(([a, b]) => i >= a && i < b);
+      const amp = quiet ? 0.04 + r() * 0.06 : 0.25 + r() * 0.7;
+      const bh = amp * h * 0.9, rect = document.createElementNS(ns, "rect");
+      rect.setAttribute("x", i * bw + bw * 0.2); rect.setAttribute("y", (h - bh) / 2);
+      rect.setAttribute("width", bw * 0.6); rect.setAttribute("height", bh); rect.setAttribute("rx", 0.6);
+      rect.setAttribute("fill", quiet ? "rgba(248,113,113,.55)" : ac); g.appendChild(rect);
+    }
+  }
+  wave(document.getElementById("wave"), 300, 64, [[14, 22], [41, 46], [63, 74], [92, 98]], "#34d399");
+  wave(document.getElementById("tv-sc"), 300, 120, [[10, 20], [44, 52], [70, 84], [104, 110]], "#34d399");
+
+  // ----- panel switcher -----
+  const names = {
+    sc: ["Silence Cut", "SILENCE · NOISE · FILLER", "#34d399"],
+    ts: ["Transition Stamp", "STAMP · TELOP · SE", "#22d3ee"],
+    se: ["SEtMotion", "MOTION + SOUND", "#f472b6"],
+    ease: ["EaseCraft", "BEZIER EASING", "#ff9f43"],
+    mg: ["Mogrt Manager", "MOGRT LIBRARY", "#60a5fa"],
+    fc: ["Focus", "ZOOM · PAN", "#a78bfa"],
+  };
+  const panel = document.getElementById("panel");
+  let auto = true, order = Object.keys(names), idx = 0;
+  function show(v) {
+    panel.style.setProperty("--ac", names[v][2]);
+    panel.querySelector(".js-pn").textContent = names[v][0];
+    panel.querySelector(".js-ps").textContent = names[v][1];
+    panel.querySelectorAll(".rail button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+    panel.querySelectorAll(".view").forEach(el => el.classList.toggle("on", el.dataset.view === v));
+  }
+  panel.querySelectorAll(".rail button").forEach(b => b.addEventListener("click", () => { auto = false; show(b.dataset.v); }));
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    setInterval(() => { if (auto) { idx = (idx + 1) % order.length; show(order[idx]); } }, 3200);
+  }
+
+  // ----- reveal on scroll -----
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>

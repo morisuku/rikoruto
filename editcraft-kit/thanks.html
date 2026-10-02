@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>ご購入ありがとうございます — Editcraft Kit</title>
+<link rel="icon" href="assets/kit-plugin@2x.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=JetBrains+Mono:wght@500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/config.js"></script>
+<style>
+.keybox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.keybox code{flex:1;min-width:0;font:600 clamp(15px,3.6vw,22px)/1.3 var(--mono);letter-spacing:1px;color:var(--ink);background:#060a12;border:1px solid rgba(34,211,238,.4);border-radius:4px;padding:14px 16px;word-break:break-all}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(34,211,238,.25);border-top-color:var(--cyan);border-radius:50%;animation:sp 0.8s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="index.html"><img src="assets/kit-plugin@2x.png" alt=""><b>EDITCRAFT KIT</b></a>
+</div></header>
+
+<main class="doc">
+  <p class="eyebrow" style="color:var(--green)">THANK YOU</p>
+  <h1>ご購入ありがとうございます</h1>
+
+  <div id="loading" class="callout"><p><span class="spin"></span>ライセンスキーを発行しています…</p></div>
+
+  <div id="error" class="callout warn" hidden>
+    <p style="color:var(--ink);font-weight:700">ライセンスキーを表示できませんでした</p>
+    <p id="error-msg"></p>
+    <p style="margin-top:10px">お支払いが完了していれば、ライセンスキーとダウンロードリンクはメールでも届きます。届かない場合は、<span class="js-contact">お問い合わせ先</span>までご連絡ください。</p>
+    <p style="margin-top:12px"><a class="btn btn-ghost btn-sm" href="" id="retry">もう一度読み込む</a></p>
+  </div>
+
+  <div id="done" hidden>
+    <p>ライセンスキーとダウンロードリンクを、<b id="mail" style="color:var(--ink)"></b> にもお送りしました。</p>
+
+    <div class="callout" style="margin-top:24px">
+      <p style="color:var(--ink);font-weight:700">ライセンスキー</p>
+      <div class="keybox"><code id="key"></code><span class="btn btn-ghost btn-sm" id="copy" role="button" tabindex="0">コピー</span></div>
+      <p style="margin-top:10px;font-size:13px">1つのキーで2台まで使えます。キーはほかの人と共有しないでください。</p>
+    </div>
+
+    <div class="callout">
+      <p style="color:var(--ink);font-weight:700;margin-bottom:12px">ダウンロード</p>
+      <a class="btn btn-primary btn-lg" id="dl" href="#" target="_blank" rel="noopener">Google Drive を開く</a>
+      <p style="margin-top:14px">お使いの OS に合う ZIP をダウンロードしてください。アップデートも同じ場所に置かれます。</p>
+      <ul><li>Windows → <code>EditcraftKit_v◯_Windows.zip</code></li><li>Mac → <code>EditcraftKit_v◯_Mac.zip</code></li></ul>
+    </div>
+
+    <h2>使い始めるまで</h2>
+    <ol>
+      <li>ZIP を展開します（Windows は右クリック →「すべて展開」）。展開先は「ダウンロード」など PC 本体のフォルダにしてください。</li>
+      <li>Windows は <code>1_Install.cmd</code>、Mac は <code>Install.command</code>（右クリック →「開く」）を実行します。</li>
+      <li>画面の案内に沿って進め、最後に Creative Cloud の「インストール」を押します。</li>
+      <li>Premiere Pro を再起動し、［ウィンドウ］→［UXP プラグイン］→［Editcraft Kit］を開きます。</li>
+      <li>上のライセンスキーを貼り付けて「登録する」を押せば完了です。</li>
+    </ol>
+    <p>詳しくは ZIP に入っている <code>Guide.html</code>（説明書）<span id="guide-wrap" hidden>、または <a id="guide" href="#" target="_blank" rel="noopener">オンライン版の説明書</a></span>をご覧ください。</p>
+  </div>
+
+  <h2>サポート</h2>
+  <p>困ったときは、<span class="js-dc-wrap" hidden><a class="js-dc" href="#">Discord サーバー</a> または </span><span class="js-contact">問い合わせ先</span> までご連絡ください。</p>
+</main>
+
+<script>
+(function () {
+  const C = window.LP_CONFIG || {};
+  const $ = (id) => document.getElementById(id);
+  const session = new URLSearchParams(location.search).get("session_id") || "";
+
+  // サポート連絡先
+  document.querySelectorAll(".js-contact").forEach((el) => {
+    if (C.contactEmail) el.innerHTML = `<a href="mailto:${C.contactEmail}">${C.contactEmail}</a>`;
+  });
+  if (C.discordUrl) { document.querySelector(".js-dc").href = C.discordUrl; document.querySelector(".js-dc-wrap").hidden = false; }
+
+  const MESSAGES = {
+    no_session: "注文番号が見つかりません。ライセンスキーとダウンロードリンクは、購入時のメールでご確認ください。",
+    bad_session: "注文番号の形式が正しくありません。",
+    not_found: "注文が見つかりませんでした。",
+    unpaid: "お支払いがまだ完了していません。完了後にもう一度読み込んでください。",
+    other_product: "この注文は Editcraft Kit の購入ではないようです。",
+    busy: "混み合っています。少し待ってから、もう一度読み込んでください。",
+    network: "ライセンスの窓口に接続できませんでした。インターネット接続を確認して、もう一度読み込んでください。",
+    config: "ライセンスの窓口がまだ設定されていません（config.js の licenseUrl）。",
+  };
+  function fail(code) {
+    $("loading").hidden = true;
+    $("error").hidden = false;
+    $("error-msg").textContent = MESSAGES[code] || "エラーが発生しました（" + code + "）。";
+  }
+
+  function show(r) {
+    $("loading").hidden = true;
+    $("done").hidden = false;
+    $("key").textContent = r.key;
+    $("mail").textContent = r.email || "購入時のメールアドレス";
+    if (r.downloadUrl) $("dl").href = r.downloadUrl;
+    else { $("dl").setAttribute("aria-disabled", "true"); $("dl").textContent = "メールのリンクからダウンロードしてください"; }
+    if (r.guideUrl) { $("guide").href = r.guideUrl; $("guide-wrap").hidden = false; }
+    // ブラウザの履歴やブックマークに注文番号つきの URL を残さない
+    history.replaceState(null, "", location.pathname);
+  }
+
+  $("copy").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText($("key").textContent);
+      $("copy").textContent = "コピーしました";
+    } catch (e) {
+      const r = document.createRange(); r.selectNodeContents($("key"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      $("copy").textContent = "選択しました（Ctrl+C でコピー）";
+    }
+    setTimeout(() => { $("copy").textContent = "コピー"; }, 2500);
+  });
+  $("retry").href = location.href;
+
+  if (!C.licenseUrl) return fail("config");
+  if (!session) return fail("no_session");
+
+  const url = C.licenseUrl + (C.licenseUrl.includes("?") ? "&" : "?") + "action=claim&session=" + encodeURIComponent(session);
+  fetch(url)
+    .then((res) => res.json())
+    .then((r) => (r.ok ? show(r) : fail(r.code)))
+    .catch(() => fail("network"));
+})();
+</script>
+</body>
+</html>
