@@ -307,7 +307,8 @@
       <p class="once">税込・買い切り（追加料金なし）</p>
       <div class="js-sale-only js-countdown">
         <div class="countdown" id="cd"><div><b>--</b><small>DAYS</small></div><div><b>--</b><small>HOURS</small></div><div><b>--</b><small>MIN</small></div><div><b>--</b><small>SEC</small></div></div>
-        <p class="cd-label">発売記念価格は <span class="js-end"></span> まで</p>
+        <p class="cd-label js-cd-pre" hidden>発売（<span class="js-launch"></span>）まで</p>
+        <p class="cd-label js-cd-sale">発売記念価格は <span class="js-end"></span> まで</p>
       </div>
       <ul class="incl">
         <li>6つのツール（Silence Cut / Transition Stamp / SEtMotion / EaseCraft / Mogrt Manager / Focus）</li>
@@ -397,7 +398,12 @@
   const onSale = () => end && Date.now() < end.getTime();
   // Stripe のリンクが未設定 = 発売前。価格は見せるが、カウントダウンと購入ボタンは「近日発売」にする
   const S = C.stripe || {};
-  const ready = !!S.link;
+  const launch = C.launchAt ? new Date(C.launchAt) : null;
+  // 買える状態 = Stripe のリンクがあり、発売時刻を過ぎている
+  let ready = false;
+  const isReady = () => !!S.link && (!launch || Date.now() >= launch.getTime());
+  const fmt = (d, o) => new Intl.DateTimeFormat("ja-JP", Object.assign({ timeZone: "Asia/Tokyo" }, o)).format(d);
+  const launchText = launch ? fmt(launch, { month: "numeric", day: "numeric", weekday: "short" }) + " " + fmt(launch, { hour: "2-digit", minute: "2-digit" }) : "";
   // 発売記念の間はクーポンを最初から入れた決済画面を開く
   const buyUrl = (sale) => !S.link ? "" : (sale && S.promoCode
     ? S.link + (S.link.includes("?") ? "&" : "?") + "prefilled_promo_code=" + encodeURIComponent(S.promoCode)
@@ -405,11 +411,16 @@
 
   // ----- price / sale state -----
   function applyPrice() {
+    ready = isReady();
     const sale = onSale();
+    const pre = !ready && !!launch && Date.now() < launch.getTime(); // 発売前（発売日時が決まっている）
     document.querySelectorAll(".js-sale-only").forEach(el => { el.hidden = !sale; });
-    document.querySelectorAll(".js-countdown").forEach(el => { el.hidden = !sale || !ready; });
+    document.querySelectorAll(".js-countdown").forEach(el => { el.hidden = !sale || !(ready || pre); });
+    document.querySelectorAll(".js-cd-pre").forEach(el => { el.hidden = !pre; });
+    document.querySelectorAll(".js-cd-sale").forEach(el => { el.hidden = pre; });
+    document.querySelectorAll(".js-launch").forEach(el => { el.textContent = launchText; });
     const badge = document.querySelector(".js-badge-text");
-    if (badge) badge.textContent = ready ? "LAUNCH SALE" : "COMING SOON";
+    if (badge) badge.textContent = ready ? "LAUNCH SALE" : pre ? "COMING SOON · " + launchText + " 発売" : "COMING SOON";
     document.querySelectorAll(".js-now").forEach(el => { el.textContent = yen(sale ? C.price.sale : C.price.regular); });
     document.querySelectorAll(".js-was").forEach(el => { el.textContent = yen(C.price.regular); });
     const link = buyUrl(sale);
@@ -419,13 +430,14 @@
       el.querySelectorAll(".js-promo-off").forEach(c => { c.textContent = yen(C.price.regular - C.price.sale); });
     });
     document.querySelectorAll(".js-buy").forEach(el => {
+      if (!el.dataset.label) el.dataset.label = el.textContent; // 発売後に元の文言へ戻すため
       if (el.closest(".nav") || el.closest(".hero") || el.closest(".final")) {
         el.href = "#price";
-        if (!ready) el.textContent = el.closest(".nav") ? "近日発売" : "近日発売・価格を見る";
+        el.textContent = ready ? el.dataset.label : el.closest(".nav") ? "近日発売" : "近日発売・価格を見る";
         return;
       }
-      if (link) { el.href = link; el.removeAttribute("aria-disabled"); }
-      else { el.href = "#price"; el.setAttribute("aria-disabled", "true"); el.textContent = "近日発売"; }
+      if (ready && link) { el.href = link; el.removeAttribute("aria-disabled"); el.textContent = el.dataset.label; }
+      else { el.href = "#price"; el.setAttribute("aria-disabled", "true"); el.textContent = pre ? launchText + " 発売" : "近日発売"; }
     });
     if (end) {
       const d = new Intl.DateTimeFormat("ja-JP", { timeZone: "Asia/Tokyo", month: "long", day: "numeric", weekday: "short", hour: "2-digit", minute: "2-digit" }).format(end);
@@ -438,12 +450,15 @@
   const cd = document.querySelectorAll("#cd b");
   const left = document.querySelector(".js-sale-left");
   function tick() {
-    if (!onSale()) { applyPrice(); return; }
-    if (!ready) { if (left) left.textContent = ""; return; }
-    let s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+    if (!onSale() || ready !== isReady()) applyPrice(); // 発売時刻・終了時刻をまたいだら表示を切り替える
+    if (!onSale()) return;
+    const pre = !ready && launch && Date.now() < launch.getTime();
+    if (!ready && !pre) { if (left) left.textContent = ""; return; }
+    const target = pre ? launch : end;
+    let s = Math.max(0, Math.floor((target - Date.now()) / 1000));
     const v = [Math.floor(s / 86400), Math.floor(s % 86400 / 3600), Math.floor(s % 3600 / 60), s % 60];
     cd.forEach((b, i) => { b.textContent = String(v[i]).padStart(2, "0"); });
-    if (left) left.textContent = "· 残り " + v[0] + "日 " + v[1] + "時間";
+    if (left) left.textContent = pre ? "" : "· 残り " + v[0] + "日 " + v[1] + "時間";
   }
   tick(); setInterval(tick, 1000);
 
