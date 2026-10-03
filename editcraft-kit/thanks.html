@@ -54,6 +54,13 @@
       <ul><li>Windows → <code>EditcraftKit_v◯_Windows.zip</code></li><li>Mac → <code>EditcraftKit_v◯_Mac.zip</code></li></ul>
     </div>
 
+    <div class="callout" id="dc-box" hidden style="border-color:rgba(88,101,242,.55);background:rgba(88,101,242,.08)">
+      <p style="color:var(--ink);font-weight:700;margin-bottom:8px">購入者専用 Discord</p>
+      <p>使い方の質問、アップデートのお知らせ、作例の共有はこちらで。参加すると購入者用のチャンネルが見られます。</p>
+      <p style="margin-top:12px"><a class="btn btn-lg" id="dc" href="#" target="_blank" rel="noopener" style="background:#5865f2;color:#fff">Discord に参加する</a></p>
+      <p style="margin-top:10px;font-size:12px">招待リンクは購入者さま専用です。共有はご遠慮ください。</p>
+    </div>
+
     <h2>使い始めるまで</h2>
     <ol>
       <li>ZIP を展開します（Windows は右クリック →「すべて展開」）。展開先は「ダウンロード」など PC 本体のフォルダにしてください。</li>
@@ -105,6 +112,10 @@
     if (r.downloadUrl) $("dl").href = r.downloadUrl;
     else { $("dl").setAttribute("aria-disabled", "true"); $("dl").textContent = "メールのリンクからダウンロードしてください"; }
     if (r.guideUrl) { $("guide").href = r.guideUrl; $("guide-wrap").hidden = false; }
+    if (r.discordUrl) {
+      $("dc").href = r.discordUrl; $("dc-box").hidden = false;
+      document.querySelector(".js-dc").href = r.discordUrl; document.querySelector(".js-dc-wrap").hidden = false;
+    }
     // ブラウザの履歴やブックマークに注文番号つきの URL を残さない
     history.replaceState(null, "", location.pathname);
   }
