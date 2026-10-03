@@ -29,7 +29,7 @@
   <p class="eyebrow" style="color:var(--green)">THANK YOU</p>
   <h1>ご購入ありがとうございます</h1>
 
-  <div id="loading" class="callout"><p><span class="spin"></span>ライセンスキーを発行しています…</p></div>
+  <div id="loading" class="callout"><p><span class="spin"></span>ライセンスキーを発行しています…</p><p style="font-size:12px;margin-top:6px">10秒ほどかかることがあります。このままお待ちください。</p></div>
 
   <div id="error" class="callout warn" hidden>
     <p style="color:var(--ink);font-weight:700">ライセンスキーを表示できませんでした</p>
@@ -136,11 +136,35 @@
   if (!C.licenseUrl) return fail("config");
   if (!session) return fail("no_session");
 
-  const url = C.licenseUrl + (C.licenseUrl.includes("?") ? "&" : "?") + "action=claim&session=" + encodeURIComponent(session);
-  fetch(url)
-    .then((res) => res.json())
-    .then((r) => (r.ok ? show(r) : fail(r.code)))
-    .catch(() => fail("network"));
+  const url = C.licenseUrl + (C.licenseUrl.includes("?") ? "&" : "?") + "action=claim&session=" + encodeURIComponent(session.trim());
+  // 一時的な通信エラーや混雑（busy）のときは、少し待って最大3回までやり直す
+  // Apps Script は返事に2〜15秒ほどかかり、まれに止まることもあるので、1回あたり25秒で打ち切る
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const getJson = (u, ms) => {
+    const ctl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timer = ctl && setTimeout(() => ctl.abort(), ms);
+    return fetch(u, { cache: "no-store", signal: ctl && ctl.signal })
+      .then((res) => res.json())
+      .finally(() => timer && clearTimeout(timer));
+  };
+  (async () => {
+    let last = "network";
+    for (let i = 0; i < 3; i++) {
+      if (i) {
+        $("loading").querySelector("p").lastChild.textContent = "ライセンスキーを発行しています…（再試行 " + i + "/2）";
+        await wait(1500 * i);
+      }
+      try {
+        const r = await getJson(url + "&try=" + i, 25000);
+        if (r.ok) return show(r);
+        last = r.code;
+        if (r.code !== "busy" && r.code !== "server") break; // 注文が見つからない等はやり直しても同じ
+      } catch (e) {
+        last = "network";
+      }
+    }
+    fail(last);
+  })();
 })();
 </script>
 </body>
