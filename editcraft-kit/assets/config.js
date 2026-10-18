@@ -25,6 +25,9 @@ window.LP_CONFIG = {
   // （Drive のリンクは Apps Script 側の DRIVE_URL に入れる。このファイルには書かない）
   licenseUrl: "https://script.google.com/macros/s/AKfycbzLol5xD19K9H9yfu5lUJH9v-IK9a50z0Ncll5SxkqoUgDUgyGA77hnFwUvX5pPZ1ZE/exec",
 
+  // 無料アニメーションプリセット（10種）の Google ドライブ共有リンク。空のあいだはボタンが「近日公開」になる
+  freePresetsUrl: "https://drive.google.com/drive/folders/19z2pNCCaPQGFMtPgmepgvQwmDgEZbqN9?usp=sharing",
+
   // SNS / サポート
   discordUrl: "",
   xUrl: "",

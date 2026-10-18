@@ -26,6 +26,7 @@
     <nav class="nav-links">
       <a href="#tools">ツール</a>
       <a href="#ai">AI 連携</a>
+      <a href="#presets">無料プリセット</a>
       <a href="#price">価格</a>
       <a href="#faq">よくある質問</a>
     </nav>
@@ -53,6 +54,7 @@
       <div class="hero-meta">
         <span>サブスクなし</span><span>1.x のアップデート無料</span><span>Windows / Mac</span><span>作品の商用利用OK</span>
       </div>
+      <a class="free-flag" href="#presets"><b>FREE</b>アニメーションプリセット 10 種を無料配布中 ↓</a>
     </div>
 
     <!-- interactive panel mock -->
@@ -290,6 +292,42 @@
   </div>
 </section>
 
+<!-- ================= PRESETS ================= -->
+<section id="presets">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">ANIMATION PRESETS</p>
+      <h2>テロップも映像も、ドラッグ 1 回で動く</h2>
+      <p>イージングまで作り込んだ Premiere Pro 用アニメーションプリセット。<br>登場・退場・強調・カメラワークを、クリップにドラッグするだけで付けられます。</p>
+    </div>
+    <video class="preset-video" src="assets/motion100-preview.mp4" poster="assets/motion100-poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
+    <div class="preset-cards">
+      <div class="preset-card is-bonus">
+        <span class="tag">購入者特典</span>
+        <h3>Editcraft Motion 100</h3>
+        <p class="num"><b>100</b> 種</p>
+        <ul>
+          <li>IN 40 ／ OUT 30 ／ 強調 20 ／ カメラ 10</li>
+          <li>バック・エラスティック・バウンドなどのイージング</li>
+          <li>モーションブラー付き・日本語版／英語版</li>
+        </ul>
+        <a class="btn btn-primary js-buy" href="#price">Kit を購入して 100 種を手に入れる</a>
+      </div>
+      <div class="preset-card">
+        <span class="tag tag-free">無料</span>
+        <h3>Editcraft Motion FREE</h3>
+        <p class="num"><b>10</b> 種</p>
+        <ul>
+          <li>スライド・ズーム・ポップ・バウンドなど基本の 10 種</li>
+          <li>Kit がなくても Premiere Pro だけで使えます</li>
+          <li>作品への使用は商用 OK</li>
+        </ul>
+        <a class="btn btn-ghost js-free" href="#" target="_blank" rel="noopener">無料でダウンロード（Google ドライブ）</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= PRICE ================= -->
 <section id="price" class="alt">
   <div class="wrap">
@@ -317,6 +355,7 @@
         <li>1.x のアップデートを無料で</li>
         <li>作った動画は商用利用OK</li>
         <li>説明書・購入者専用 Discord でのサポート</li>
+        <li>特典：アニメーションプリセット 100 種（Editcraft Motion 100）</li>
       </ul>
       <a class="btn btn-primary btn-lg js-buy" href="#">購入する</a>
       <p class="promo-note js-promo" hidden>決済画面でクーポン <b class="js-promo-code"></b>（<span class="js-promo-off"></span> 引き）が自動で適用されます</p>
@@ -358,6 +397,7 @@
       <details><summary>Mac で使えますか？</summary><p>使えます。ZIP は Windows 用と Mac 用に分かれているので、お使いの OS の方をダウンロードしてください。</p></details>
       <details><summary>作った動画を仕事（商用）で使えますか？</summary><p>はい。キットを使って作った動画は、YouTube の収益化や案件など、商用で自由にお使いいただけます。</p></details>
       <details><summary>AI 連携は必須ですか？</summary><p>いいえ。すべてのツールはパネルから手で使えます。AI 連携は、Claude Desktop などで編集を自動化したい方向けの機能です。</p></details>
+      <details><summary>アニメーションプリセットだけ使えますか？</summary><p>はい。プリセットは Premiere Pro の標準機能（エフェクトプリセット）なので、Kit のパネルがなくても使えます。無料の 10 種はどなたでもダウンロードでき、100 種は Kit 購入者の特典として、購入後のダウンロードフォルダに入っています。</p></details>
       <details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金は原則お受けしていません。動作環境を満たしているのに動かない場合は、購入者専用 Discord または問い合わせ先までご連絡ください。</p></details>
       <details><summary>領収書はもらえますか？</summary><p>決済後、Stripe から購入時のメールアドレスに領収書が届きます。</p></details>
     </div>
@@ -465,6 +505,13 @@
   // ----- social links -----
   [["js-x", C.xUrl], ["js-yt", C.youtubeUrl], ["js-dc", C.discordUrl]].forEach(([c, u]) => {
     document.querySelectorAll("." + c).forEach(a => { if (u) a.href = u; else a.hidden = true; });
+  });
+
+  // ----- free presets -----
+  document.querySelectorAll(".js-free").forEach(a => {
+    if (C.freePresetsUrl) { a.href = C.freePresetsUrl; return; }
+    a.removeAttribute("href"); a.removeAttribute("target");
+    a.classList.add("is-soon"); a.textContent = "無料版は近日公開";
   });
 
   // ----- waveform (deterministic) -----
