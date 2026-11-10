@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>ご購入ありがとうございます — CosMake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<script src="assets/config.js"></script>
+<style>
+:root{
+  --bg:#0e0b12;--panel:#17121d;--line:rgba(255,255,255,.10);--ink:#f4eef6;--sub:#b9aec0;--muted:#8a7f91;
+  --accent:#ff7aa8;--accent2:#b07cff;--ok:#5fe0a8;--warn:#ffb86b;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:radial-gradient(1200px 600px at 80% -10%,rgba(176,124,255,.18),transparent 60%),radial-gradient(900px 500px at -10% 10%,rgba(255,122,168,.14),transparent 60%),var(--bg);
+  color:var(--sub);font:15px/1.8 "Noto Sans JP",system-ui,sans-serif;min-height:100vh}
+a{color:var(--accent)}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+header{padding:22px 0;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700;letter-spacing:.06em}
+.brand i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:inline-block}
+main{padding:40px 0 70px}
+.eyebrow{color:var(--ok);font:600 12px/1 var(--mono);letter-spacing:.2em;margin:0 0 10px}
+h1{color:var(--ink);font-size:clamp(24px,5vw,32px);line-height:1.35;margin:0 0 6px}
+h2{color:var(--ink);font-size:19px;margin:40px 0 12px}
+.lead{margin:0 0 26px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0}
+.card.warn{border-color:rgba(255,184,107,.45);background:rgba(255,184,107,.07)}
+.card h3{color:var(--ink);font-size:15px;margin:0 0 10px}
+.product{display:inline-block;padding:4px 12px;border-radius:999px;background:linear-gradient(135deg,rgba(255,122,168,.18),rgba(176,124,255,.18));border:1px solid rgba(255,122,168,.35);color:var(--ink);font-weight:700;font-size:14px}
+.keybox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.keybox code{flex:1;min-width:0;font:600 clamp(15px,3.6vw,21px)/1.3 var(--mono);letter-spacing:1px;color:var(--ink);background:#08060b;border:1px solid rgba(255,122,168,.45);border-radius:10px;padding:14px 16px;word-break:break-all}
+.btn{display:inline-block;border:0;border-radius:10px;padding:11px 18px;font:700 14px/1 "Noto Sans JP",sans-serif;cursor:pointer;text-decoration:none;color:#1a0f18;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.lg{padding:15px 24px;font-size:15px}
+.small{font-size:13px;color:var(--muted)}
+ol{padding-left:1.3em}
+ol li{margin:6px 0}
+code.inline{font:500 13px var(--mono);background:rgba(255,255,255,.06);padding:2px 6px;border-radius:6px;color:var(--ink)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:640px){.cols{grid-template-columns:1fr}}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,122,168,.25);border-top-color:var(--accent);border-radius:50%;animation:sp .8s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+[hidden]{display:none!important}
+footer{border-top:1px solid var(--line);padding:22px 0;font-size:12px;color:var(--muted)}
+@media (prefers-color-scheme: light){
+  :root{--bg:#fbf8fc;--panel:#ffffff;--line:rgba(30,10,40,.12);--ink:#21162a;--sub:#4c4255;--muted:#7a6f82}
+  .keybox code{background:#f6f0f8}
+  .btn{color:#fff}
+  .btn.ghost{color:var(--ink)}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="brand"><i></i>CosMake</span></div></header>
+
+<main class="wrap">
+  <p class="eyebrow">THANK YOU</p>
+  <h1>ご購入ありがとうございます</h1>
+
+  <div id="loading" class="card"><p style="margin:0"><span class="spin"></span><span id="loading-text">ライセンスキーを発行しています…</span></p>
+    <p class="small" style="margin:6px 0 0">10 秒ほどかかることがあります。このままお待ちください。</p></div>
+
+  <div id="error" class="card warn" hidden>
+    <h3>ライセンスキーを表示できませんでした</h3>
+    <p id="error-msg" style="margin:0"></p>
+    <p style="margin:10px 0 0">お支払いが完了していれば、ライセンスキーとダウンロードリンクはメールでも届きます。届かない場合は、<span class="js-contact">お問い合わせ先</span>までご連絡ください。</p>
+    <p style="margin:14px 0 0"><a class="btn ghost" href="" id="retry">もう一度読み込む</a></p>
+  </div>
+
+  <div id="done" hidden>
+    <p class="lead"><span class="product" id="product"></span><br>
+      ライセンスキーとダウンロードリンクを、<b id="mail" style="color:var(--ink)"></b> にもお送りしました。</p>
+
+    <div class="card">
+      <h3>ライセンスキー</h3>
+      <div class="keybox"><code id="key"></code><button class="btn ghost" id="copy" type="button">コピー</button></div>
+      <p class="small" style="margin:10px 0 0">1 つのキーで PC 2 台まで。同じ PC の Premiere Pro と DaVinci Resolve の両方で使えます。キーはほかの人と共有しないでください。</p>
+    </div>
+
+    <div class="card">
+      <h3>ダウンロード</h3>
+      <a class="btn lg" id="dl" href="#" target="_blank" rel="noopener">Google Drive を開く</a>
+      <p style="margin:14px 0 0">Windows 用の ZIP（<code class="inline">CosMake_v◯_Windows.zip</code>）をダウンロードしてください。アップデートも同じ場所に置かれます。</p>
+    </div>
+
+    <div class="card" id="dc-box" hidden style="border-color:rgba(88,101,242,.55);background:rgba(88,101,242,.08)">
+      <h3>購入者専用 Discord</h3>
+      <p style="margin:0">使い方の質問、アップデートのお知らせ、作例の共有はこちらで。</p>
+      <p style="margin:12px 0 0"><a class="btn" id="dc" href="#" target="_blank" rel="noopener" style="background:#5865f2;color:#fff">Discord に参加する</a></p>
+    </div>
+
+    <h2>使い始めるまで</h2>
+    <ol>
+      <li>Premiere Pro と DaVinci Resolve を閉じます。</li>
+      <li>ZIP を展開し（右クリック →「すべて展開」）、中の「1_Install.cmd」をダブルクリックします。「Windows によって PC が保護されました」と出たら「詳細情報」→「実行」、管理者の確認が出たら「はい」。Premiere 用と DaVinci 用が一度に入ります。</li>
+      <li>ソフトを起動し、エフェクトをクリップにかけます。
+        <div class="cols" style="margin-top:8px">
+          <div class="card" style="margin:0"><h3>Premiere Pro</h3><p class="small" style="margin:0">エフェクト → ビデオエフェクト → <b>CosMake</b> → CosMake Face / CosMake Skin</p></div>
+          <div class="card" style="margin:0"><h3>DaVinci Resolve</h3><p class="small" style="margin:0">カラーページの OpenFX → <b>CosMake</b> → CosMake Face / CosMake Skin</p></div>
+        </div>
+      </li>
+      <li>エフェクトの［ライセンス］ボタンを押し、上のキーを貼り付けて「登録する」を押します。映像の × 印が消えれば完了です。</li>
+      <li>［解析］ボタンで顔を解析すると、補正がかかります。</li>
+    </ol>
+    <p id="guide-wrap" hidden>詳しくは <a id="guide" href="#" target="_blank" rel="noopener">説明書</a> をご覧ください。</p>
+  </div>
+
+  <h2>サポート</h2>
+  <p>困ったときは、<span class="js-dc-wrap" hidden><a class="js-dc" href="#">Discord</a> または </span><span class="js-contact">問い合わせ先</span> までご連絡ください。</p>
+</main>
+
+<footer><div class="wrap">CosMake — 映像制作リコルト</div></footer>
+
+<script>
+(function () {
+  const C = window.LP_CONFIG || {};
+  const $ = (id) => document.getElementById(id);
+  const q = new URLSearchParams(location.search);
+  const session = q.get("session_id") || "";
+  // 手元の確認用: localhost で開いたときだけ ?api= で窓口を差し替えられる（license-gas/mock.mjs）
+  const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  const api = local && q.get("api") ? q.get("api") : C.licenseUrl;
+
+  document.querySelectorAll(".js-contact").forEach((el) => {
+    if (C.contactEmail) el.innerHTML = '<a href="mailto:' + C.contactEmail + '">' + C.contactEmail + "</a>";
+  });
+  if (C.discordUrl) { document.querySelector(".js-dc").href = C.discordUrl; document.querySelector(".js-dc-wrap").hidden = false; }
+
+  const MESSAGES = {
+    no_session: "注文番号が見つかりません。ライセンスキーとダウンロードリンクは、購入時のメールでご確認ください。",
+    bad_session: "注文番号の形式が正しくありません。",
+    not_found: "注文が見つかりませんでした。",
+    unpaid: "お支払いがまだ完了していません。完了後にもう一度読み込んでください。",
+    other_product: "この注文は CosMake の購入ではないようです。",
+    busy: "混み合っています。少し待ってから、もう一度読み込んでください。",
+    network: "ライセンスの窓口に接続できませんでした。インターネット接続を確認して、もう一度読み込んでください。",
+    config: "ライセンスの窓口がまだ設定されていません（config.js の licenseUrl）。",
+  };
+  function fail(code) {
+    $("loading").hidden = true;
+    $("error").hidden = false;
+    $("error-msg").textContent = MESSAGES[code] || "エラーが発生しました（" + code + "）。";
+  }
+  function show(r) {
+    $("loading").hidden = true;
+    $("done").hidden = false;
+    $("product").textContent = r.productName || "CosMake";
+    $("key").textContent = r.key;
+    $("mail").textContent = r.email || "購入時のメールアドレス";
+    if (r.downloadUrl) $("dl").href = r.downloadUrl;
+    else { $("dl").removeAttribute("href"); $("dl").textContent = "メールのリンクからダウンロードしてください"; }
+    if (r.guideUrl) { $("guide").href = r.guideUrl; $("guide-wrap").hidden = false; }
+    if (r.discordUrl) {
+      $("dc").href = r.discordUrl; $("dc-box").hidden = false;
+      document.querySelector(".js-dc").href = r.discordUrl; document.querySelector(".js-dc-wrap").hidden = false;
+    }
+    // ブラウザの履歴やブックマークに注文番号つきの URL を残さない
+    history.replaceState(null, "", location.pathname);
+  }
+
+  $("copy").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText($("key").textContent);
+      $("copy").textContent = "コピーしました";
+    } catch (e) {
+      const r = document.createRange(); r.selectNodeContents($("key"));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      $("copy").textContent = "選択しました（Ctrl+C でコピー）";
+    }
+    setTimeout(() => { $("copy").textContent = "コピー"; }, 2500);
+  });
+  $("retry").href = location.href;
+
+  if (!api) return fail("config");
+  if (!session) return fail("no_session");
+
+  const url = api + (api.includes("?") ? "&" : "?") + "action=claim&session=" + encodeURIComponent(session.trim());
+  // 一時的な通信エラーや混雑のときは、少し待って最大 3 回まで。Apps Script は 2〜15 秒かかるので 1 回 25 秒で打ち切る
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const getJson = (u, ms) => {
+    const ctl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    const timer = ctl && setTimeout(() => ctl.abort(), ms);
+    return fetch(u, { cache: "no-store", signal: ctl && ctl.signal }).then((res) => res.json()).finally(() => timer && clearTimeout(timer));
+  };
+  (async () => {
+    let last = "network";
+    for (let i = 0; i < 3; i++) {
+      if (i) { $("loading-text").textContent = "ライセンスキーを発行しています…（再試行 " + i + "/2）"; await wait(1500 * i); }
+      try {
+        const r = await getJson(url + "&try=" + i, 25000);
+        if (r.ok) return show(r);
+        last = r.code;
+        if (r.code !== "busy" && r.code !== "server") break;
+      } catch (e) { last = "network"; }
+    }
+    fail(last);
+  })();
+})();
+</script>
+</body>
+</html>
