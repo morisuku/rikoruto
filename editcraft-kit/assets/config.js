@@ -25,7 +25,7 @@ window.LP_CONFIG = {
     start: "2026-11-27T00:00:00+09:00",
     end:   "2026-12-01T23:59:00+09:00",
     price: 4980,
-    promoCode: "BLACKFRIDAY",
+    promoCode: "FADETOBLACK",
   },
 
   // Stripe の Payment Link（¥7,980 の1本だけ。「プロモーションコードを許可」をオンにする）
