@@ -183,6 +183,14 @@ section.alt{background:linear-gradient(180deg,rgba(11,20,34,.6),rgba(11,20,34,.2
 .countdown b{display:block;font:700 22px/1 var(--disp)}
 .countdown small{font:500 9px/1 var(--mono);letter-spacing:1.5px;color:var(--ink-3)}
 .cd-label{text-align:center;font-size:12px;color:var(--warn)}
+.teaser{text-align:center;font-size:14px;font-weight:700;color:var(--warn);margin-top:10px}
+/* セールの帯（ナビの下に固定） */
+.sale-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 12px;padding:8px 16px;text-decoration:none;color:#1a1205;background:linear-gradient(90deg,#fbbf24,#f59e0b);font-size:13px;font-weight:700;line-height:1.3}
+.sale-bar[hidden]{display:none}
+.sale-bar b{font:700 12px/1 var(--disp);letter-spacing:1.6px;background:#1a1205;color:#fbbf24;padding:4px 8px;border-radius:3px}
+.sale-bar .sb-cd{font:700 15px/1 var(--mono);letter-spacing:.5px}
+.sale-bar .sb-price{font-weight:500}
+.sale-bar:hover{filter:brightness(1.06)}
 .incl{list-style:none;margin:26px 0;padding:22px 0;border-block:1px solid var(--rule);display:grid;gap:10px;font-size:14px}
 .incl li{display:flex;gap:10px}
 .incl li::before{content:"✓";color:var(--green);font-weight:700}
