@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
+<link rel="icon" href="assets/icon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/icon/cosmake-icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png">
 <title>ご購入ありがとうございます — CosMake</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +27,7 @@ a{color:var(--accent)}
 .wrap{max-width:760px;margin:0 auto;padding:0 20px}
 header{padding:22px 0;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700;letter-spacing:.06em}
-.brand i{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:inline-block}
+.brand i{width:30px;height:30px;border-radius:7px;background:url(assets/icon/cosmake-icon-64.png) center/cover no-repeat;display:inline-block;flex:none}
 main{padding:40px 0 70px}
 .eyebrow{color:var(--ok);font:600 12px/1 var(--mono);letter-spacing:.2em;margin:0 0 10px}
 h1{color:var(--ink);font-size:clamp(24px,5vw,32px);line-height:1.35;margin:0 0 6px}
@@ -81,7 +84,7 @@ footer{border-top:1px solid var(--line);padding:22px 0;font-size:12px;color:var(
     <div class="card">
       <h3>ライセンスキー</h3>
       <div class="keybox"><code id="key"></code><button class="btn ghost" id="copy" type="button">コピー</button></div>
-      <p class="small" style="margin:10px 0 0">1 つのキーで PC 2 台まで。同じ PC の Premiere Pro と DaVinci Resolve の両方で使えます。キーはほかの人と共有しないでください。</p>
+      <p class="small" style="margin:10px 0 0">1 つのキーで PC 2 台まで。同じ PC の Premiere と DaVinci Resolve の両方で使えます。キーはほかの人と共有しないでください。</p>
     </div>
 
     <div class="card">
@@ -98,11 +101,11 @@ footer{border-top:1px solid var(--line);padding:22px 0;font-size:12px;color:var(
 
     <h2>使い始めるまで</h2>
     <ol>
-      <li>Premiere Pro と DaVinci Resolve を閉じます。</li>
+      <li>Premiere と DaVinci Resolve を閉じます。</li>
       <li>ZIP を展開し（右クリック →「すべて展開」）、中の「1_Install.cmd」をダブルクリックします。「Windows によって PC が保護されました」と出たら「詳細情報」→「実行」、管理者の確認が出たら「はい」。Premiere 用と DaVinci 用が一度に入ります。</li>
       <li>ソフトを起動し、エフェクトをクリップにかけます。
         <div class="cols" style="margin-top:8px">
-          <div class="card" style="margin:0"><h3>Premiere Pro</h3><p class="small" style="margin:0">エフェクト → ビデオエフェクト → <b>CosMake</b> → CosMake Face / CosMake Skin</p></div>
+          <div class="card" style="margin:0"><h3>Premiere</h3><p class="small" style="margin:0">エフェクト → ビデオエフェクト → <b>CosMake</b> → CosMake Face / CosMake Skin</p></div>
           <div class="card" style="margin:0"><h3>DaVinci Resolve</h3><p class="small" style="margin:0">カラーページの OpenFX → <b>CosMake</b> → CosMake Face / CosMake Skin</p></div>
         </div>
       </li>

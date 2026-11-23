@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 発売するまで検索に出さない。発売時にこの 1 行を消す -->
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="assets/icon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="assets/icon/cosmake-icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png">
+<title>CosMake — 動画の小顔・肌補正エフェクト（Premiere・DaVinci Resolve）</title>
+<meta name="description" content="人を撮った動画の顔と肌を、動画のまま整える Premiere・DaVinci Resolve 用エフェクト。輪郭を細くする CosMake Face と、肌をなめらかにする CosMake Skin。1 回の購入で両方のソフトに使えて、買い切り。">
+<meta property="og:title" content="CosMake — 動画の小顔・肌補正エフェクト">
+<meta property="og:description" content="顔を解析してコマごとに追いかける、Premiere・DaVinci Resolve 用の小顔・肌補正エフェクト。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rikoruto.jp/cosmake/">
+<link rel="canonical" href="https://rikoruto.jp/cosmake/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@500;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<script src="assets/config.js"></script>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0e0b12;--bg2:#130f18;--panel:#1a1420;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.18);
+  --ink:#f6f0f8;--sub:#c3b8ca;--muted:#8d8294;
+  --accent:#ff7aa8;--accent2:#b07cff;--ok:#5fe0a8;
+  --grad:linear-gradient(135deg,var(--accent),var(--accent2));
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --disp:"Outfit","Noto Sans JP",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{margin:0}
+body{background:var(--bg);color:var(--sub);font:16px/1.85 "Noto Sans JP",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--accent)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+section{padding:96px 0}
+section.alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.22em;color:var(--accent);margin:0 0 14px;text-transform:uppercase}
+h1,h2,h3{color:var(--ink);margin:0}
+h2{font-size:clamp(26px,3.6vw,38px);line-height:1.35;font-weight:900;letter-spacing:.01em}
+h3{font-size:18px;line-height:1.5}
+.sec-head{max-width:720px;margin:0 0 48px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.sec-head p{margin:16px 0 0}
+[hidden]{display:none!important}
+.nb{display:inline-block}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:13px 22px;font:700 15px/1.2 "Noto Sans JP",sans-serif;cursor:pointer;text-decoration:none;color:#1d0f1a;background:var(--grad);transition:transform .15s,box-shadow .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px -10px rgba(255,122,168,.6)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line2)}
+.btn.ghost:hover{box-shadow:none;border-color:rgba(255,255,255,.35)}
+.btn.lg{padding:17px 28px;font-size:16px}
+.btn.sm{padding:9px 14px;font-size:13px;border-radius:10px}
+.btn[aria-disabled="true"]{background:rgba(255,255,255,.08);color:var(--muted);cursor:default;box-shadow:none;transform:none}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(14,11,18,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font:800 19px/1 var(--disp);letter-spacing:.04em}
+.brand i{width:30px;height:30px;border-radius:7px;background:url(assets/icon/cosmake-icon-64.png) center/cover no-repeat;display:inline-block;flex:none}
+.nav-links{display:flex;gap:22px;margin-left:auto}
+.nav-links a{color:var(--sub);text-decoration:none;font-size:14px}
+.nav-links a:hover{color:var(--ink)}
+@media (max-width:820px){.nav-links{display:none}.nav .btn{margin-left:auto}}
+
+/* hero */
+.hero{padding:72px 0 88px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:120%;background:radial-gradient(700px 420px at 78% 20%,rgba(176,124,255,.22),transparent 65%),radial-gradient(600px 400px at 8% 30%,rgba(255,122,168,.16),transparent 65%);pointer-events:none}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:40px}}
+.hero h1{font-size:clamp(34px,5.4vw,60px);line-height:1.22;font-weight:900;letter-spacing:.005em}
+.hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:17px;margin:24px 0 32px;max-width:34em}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chips span{font-size:13px;color:var(--ink);padding:6px 12px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.03)}
+.chips span b{color:var(--accent);font-weight:700}
+.soon{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--mono);letter-spacing:.12em;color:var(--ok);border:1px solid rgba(95,224,168,.35);background:rgba(95,224,168,.08);padding:7px 12px;border-radius:999px;margin-bottom:22px}
+.soon i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(95,224,168,.18)}
+
+/* before / after */
+.ba{position:relative;overflow:hidden;border-radius:18px;border:1px solid var(--line2);background:#000;user-select:none;-webkit-user-select:none;touch-action:pan-y;cursor:ew-resize;--pos:50%}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.ba img.after{clip-path:inset(0 0 0 var(--pos))}
+.ba .bar{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 12px rgba(0,0,0,.5);pointer-events:none}
+.ba .knob{position:absolute;top:50%;left:var(--pos);width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.45);display:grid;place-items:center;pointer-events:none}
+.ba .knob::before{content:"‹ ›";color:#1d0f1a;font:700 20px/1 var(--disp);margin-top:-2px}
+.ba .tag{position:absolute;bottom:14px;font:600 11px/1 var(--mono);letter-spacing:.16em;color:#fff;background:rgba(0,0,0,.55);padding:7px 10px;border-radius:6px;pointer-events:none;backdrop-filter:blur(4px)}
+.ba .tag.l{left:14px}.ba .tag.r{right:14px}
+.ba canvas.vid{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s;pointer-events:none}
+.ba canvas.vid.on{opacity:1}
+.ba video.src{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:ew-resize}
+.ba:focus-within{outline:2px solid var(--accent);outline-offset:3px}
+.cap{font-size:13px;color:var(--muted);margin:12px 2px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hero .ba{aspect-ratio:1/1;box-shadow:0 40px 90px -30px rgba(176,124,255,.45)}
+
+/* points */
+.points{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media (max-width:860px){.points{grid-template-columns:1fr}}
+.point{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:28px 26px}
+.point .n{font:700 13px/1 var(--mono);color:var(--accent);letter-spacing:.1em}
+.point h3{margin:14px 0 10px}
+.point p{margin:0;font-size:15px}
+
+/* product */
+.product{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.product.rev .media{order:2}
+@media (max-width:900px){.product{grid-template-columns:1fr;gap:36px}.product.rev .media{order:0}}
+.pname{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.pname b{font:800 15px/1 var(--disp);letter-spacing:.06em;padding:7px 12px;border-radius:999px;background:linear-gradient(135deg,rgba(255,122,168,.2),rgba(176,124,255,.2));border:1px solid rgba(255,122,168,.4);color:var(--ink)}
+.pname span{font-size:14px;color:var(--muted)}
+.product h2{margin:16px 0 18px}
+.groups{display:grid;gap:12px;margin:26px 0 0}
+.group{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:baseline;padding:14px 0;border-top:1px solid var(--line)}
+.group dt{font-size:13px;font-weight:700;color:var(--ink)}
+.group dd{margin:0;display:flex;flex-wrap:wrap;gap:6px}
+.group dd span{font-size:13px;padding:3px 10px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--sub)}
+.media .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.media .ba.face{aspect-ratio:1/1}
+.media .ba.skin{aspect-ratio:1/1}
+.media .ba.zoom{aspect-ratio:600/550}
+.note{font-size:13px;color:var(--muted)}
+
+/* both apps */
+.apps{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch}
+@media (max-width:820px){.apps{grid-template-columns:1fr}.apps .plus{justify-self:center}}
+.app{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}
+.app .logo{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:11px;font:800 17px/1 var(--disp);margin-bottom:14px}
+.app.pr .logo{background:#2a0a3a;color:#ea77ff;border:1px solid #ea77ff55}
+.app.dv .logo{background:#0d1b26;color:#7fd3ff;border:1px solid #7fd3ff55}
+.app p{margin:8px 0 0;font-size:14px}
+.app code{font:500 12.5px/1.7 var(--mono);color:var(--ink);background:rgba(255,255,255,.05);padding:2px 7px;border-radius:6px}
+.plus{display:grid;place-items:center;font:800 28px/1 var(--disp);color:var(--accent)}
+.shared{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+@media (max-width:820px){.shared{grid-template-columns:1fr}}
+.shared div{border:1px dashed var(--line2);border-radius:14px;padding:20px 22px}
+.shared h3{font-size:16px}
+.shared p{margin:6px 0 0;font-size:14px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:s}
+@media (max-width:820px){.steps{grid-template-columns:1fr}}
+.step{position:relative;padding:26px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+.step .n{font:700 12px/1 var(--mono);letter-spacing:.14em;color:var(--accent2)}
+.step h3{margin:12px 0 8px}
+.step p{margin:0;font-size:14px}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 28px}
+.trio figure{margin:0}
+.trio img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:1px solid var(--line2)}
+.trio figcaption{margin-top:10px;font-size:13px;color:var(--sub);text-align:center}
+.trio figcaption b{display:block;font:700 11px/1 var(--mono);letter-spacing:.14em;color:var(--accent);margin-bottom:6px}
+.trio .res img{border-color:rgba(255,122,168,.6)}
+@media (max-width:640px){.trio{gap:8px}.trio figcaption{font-size:11px}}
+.btnmock{display:inline-block;font-size:12px;font-weight:700;color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:1px 8px;background:rgba(255,255,255,.06)}
+
+/* price */
+.prices{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:18px;align-items:stretch}
+@media (max-width:900px){.prices{grid-template-columns:1fr;max-width:460px;margin:0 auto}.pcard.best{order:-1;margin-bottom:8px}}
+.pcard{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:30px 26px;position:relative}
+.pcard.best{border:1px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box;box-shadow:0 30px 80px -30px rgba(255,122,168,.45)}
+@media (min-width:901px){.pcard.best{transform:translateY(-12px)}}
+.pcard .rib{position:absolute;top:-13px;left:50%;transform:translateX(-50%);font:700 12px/1 "Noto Sans JP";color:#1d0f1a;background:var(--grad);padding:7px 14px;border-radius:999px;white-space:nowrap}
+.pcard h3{font:800 20px/1.2 var(--disp);letter-spacing:.03em}
+.pcard .what{font-size:14px;margin:6px 0 18px;color:var(--muted)}
+.yen{font:800 40px/1 var(--disp);color:var(--ink);letter-spacing:.01em}
+.yen small{font:500 13px "Noto Sans JP";color:var(--muted);margin-left:6px}
+.save{font-size:13px;color:var(--ok);margin:8px 0 0;min-height:1.6em}
+.was{font:600 18px/1 var(--disp);color:var(--muted);text-decoration:line-through;text-decoration-thickness:2px;margin-right:10px;vertical-align:4px}
+.salenote{font-size:12.5px;line-height:1.6;color:var(--accent);margin:10px 0 0}
+.salebar{display:table;margin:0 auto 34px;font-size:14px;color:var(--ink);background:linear-gradient(135deg,rgba(255,122,168,.16),rgba(176,124,255,.16));border:1px solid var(--line2);border-radius:999px;padding:9px 20px;text-align:center}
+.salebar b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-right:8px}
+.pcard ul{list-style:none;padding:0;margin:20px 0 26px;font-size:14px;flex:1}
+.pcard li{padding:6px 0 6px 24px;position:relative}
+.pcard li::before{content:"";position:absolute;left:2px;top:13px;width:11px;height:6px;border-left:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg)}
+.pcard .btn{width:100%}
+.fine{text-align:center;font-size:13px;color:var(--muted);margin:30px 0 0}
+
+/* trial */
+.trial{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;background:linear-gradient(135deg,rgba(255,122,168,.09),rgba(176,124,255,.09));border:1px solid var(--line2);border-radius:22px;padding:44px}
+@media (max-width:860px){.trial{grid-template-columns:1fr;padding:30px 24px}}
+.trial h2{font-size:clamp(24px,3vw,32px)}
+.trial p{margin:14px 0 0}
+.trial ul{margin:14px 0 24px;padding-left:1.2em;font-size:15px}
+.xmark{aspect-ratio:16/10;border-radius:14px;position:relative;overflow:hidden;border:1px solid var(--line2)}
+.xmark img{width:100%;height:100%;object-fit:cover}
+.xmark svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* specs / faq */
+.specs{width:100%;border-collapse:collapse;font-size:15px}
+.specs th,.specs td{text-align:left;vertical-align:top;padding:16px 0;border-top:1px solid var(--line)}
+.specs th{width:30%;color:var(--ink);font-weight:700;padding-right:20px}
+@media (max-width:600px){.specs th,.specs td{display:block;width:auto;padding:12px 0 0}.specs td{border-top:0;padding:4px 0 12px}}
+.faq{max-width:820px;margin:0 auto}
+.faq details{border-top:1px solid var(--line);padding:4px 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;color:var(--ink);font-weight:700;padding:16px 36px 16px 0;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:6px;top:12px;font:400 24px/1 var(--disp);color:var(--accent)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:0 0 18px;font-size:15px}
+
+.story{max-width:760px}
+.story h2{margin-bottom:22px}
+.story p{margin:0 0 16px}
+.story .sign{margin-top:26px;color:var(--ink);font-weight:700}
+.story .sign span{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.final{text-align:center;padding:110px 0}
+.final h2{font-size:clamp(28px,4vw,44px)}
+.final p{margin:16px 0 30px}
+footer{border-top:1px solid var(--line);padding:30px 0 40px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center}
+footer nav{display:flex;flex-wrap:wrap;gap:18px}
+footer nav a{color:var(--sub);text-decoration:none}
+footer nav a:hover{color:var(--ink)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><i></i>CosMake</a>
+    <nav class="nav-links">
+      <a href="#face">Face</a>
+      <a href="#skin">Skin</a>
+      <a href="#match">Match</a>
+      <a href="#apps">対応ソフト</a>
+      <a href="#price">価格</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
+    <a class="btn sm js-nav-buy" href="#price">価格を見る</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="soon js-soon" hidden><i></i><span class="js-soon-text">COMING SOON</span></span>
+      <h1><span class="nb">顔と肌を、</span><br><span class="nb"><em>動画のまま</em></span><span class="nb">整える。</span></h1>
+      <p class="lede">CosMake は、輪郭をすっきりさせる <b style="color:var(--ink)">Face</b> と、肌をなめらかにする <b style="color:var(--ink)">Skin</b> の 2 つのエフェクトです。顔を解析してコマごとに追いかけるので、動きのあるカットでも補正がついていきます。インタビュー、Vlog、ウェディング、作品撮りなど、人を撮る動画に。</p>
+      <div class="hero-cta">
+        <a class="btn lg" href="#price">価格を見る</a>
+        <a class="btn lg ghost" href="#trial">無料の体験版</a>
+      </div>
+      <div class="chips">
+        <span><b>Premiere</b> と <b>DaVinci Resolve</b> の両方で使える</span>
+        <span>買い切り</span>
+        <span>1 キーで PC 2 台</span>
+        <span>体験版は期限なし</span>
+      </div>
+    </div>
+    <div>
+      <div class="ba js-ba" data-intro>
+        <img class="before" src="assets/ba/face-hero-before.jpg" alt="CosMake Face をかける前">
+        <img class="after" src="assets/ba/face-hero-after.jpg" alt="CosMake Face をかけた後（輪郭が少しすっきりしている）">
+        <!-- 動画: 1 本の動画（左=元・右=補正後）から canvas に描き分ける。再生できないときは上の 2 枚の写真のまま -->
+        <canvas class="vid" width="720" height="720" aria-hidden="true"></canvas>
+        <video class="src" src="assets/ba/face.mp4" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+        <span class="bar"></span><span class="knob"></span>
+        <span class="tag l">BEFORE</span><span class="tag r">AFTER</span>
+        <input type="range" min="0" max="100" value="50" aria-label="補正前と補正後の境目">
+      </div>
+      <p class="cap"><span>CosMake Face（モデルさんの好みに合わせた設定）</span><span>← 左右にドラッグして比べる →</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">Made for video</p>
+      <h2><span class="nb">動画の人物加工は、</span><br><span class="nb">これだけで完結。</span></h2>
+      <p>動画は 1 秒に 30 コマ。顔の向きも大きさも毎コマ変わります。<br>CosMake は、はじめに顔を解析して、すべてのコマに同じ補正を合わせます。</p>
+    </div>
+    <div class="points">
+      <div class="point reveal"><span class="n">01</span><h3>コマごとに顔を追いかける</h3><p>［解析］ボタンで、クリップ全体の顔の位置を読み取ります。点の動きをなめらかにつないでから補正するので、ガタつきやちらつきが出にくくなっています。</p></div>
+      <div class="point reveal"><span class="n">02</span><h3>まわりは、なるべく動かさない</h3><p>輪郭を細くしても目・鼻・口は縮まないように守ります（パーツ保護）。補正が届く範囲も調整でき、背景・首・髪が曲がりにくくなっています。</p></div>
+      <div class="point reveal"><span class="n">03</span><h3>映像は PC の外に出ない</h3><p>顔の解析は、お使いの PC の中だけで行います。撮影した映像をどこかにアップロードすることはありません。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FACE ================= -->
+<section id="face">
+  <div class="wrap product">
+    <div class="media reveal">
+      <div class="ba face js-ba">
+        <img class="before" src="assets/ba/face-tight-before.jpg" alt="CosMake Face をかける前" loading="lazy">
+        <img class="after" src="assets/ba/face-tight-after.jpg" alt="CosMake Face をかけた後（輪郭・鼻・口が小さくなっている）" loading="lazy">
+        <span class="bar"></span><span class="knob"></span>
+        <span class="tag l">BEFORE</span><span class="tag r">AFTER</span>
+        <input type="range" min="0" max="100" value="50" aria-label="補正前と補正後の境目">
+      </div>
+      <p class="cap"><span>輪郭は控えめに、鼻・口も調整</span><span>髪・背景はそのまま</span></p>
+    </div>
+    <div>
+      <div class="pname"><b>CosMake Face</b><span>小顔</span></div>
+      <h2>輪郭をすっきり。<br>パーツは、そのまま。</h2>
+      <p>あご・エラ・頬のラインを内側へ寄せて、顔を小さく見せます。鼻・口の形や、ほうれい線・マリオネットラインのしわも整えられます。強さは「0」で元の映像とまったく同じ。ほんの少しだけ、から、はっきりまで、スライダーで決められます。</p>
+      <dl class="groups">
+        <div class="group"><dt>輪郭</dt><dd><span>強さ</span><span>あご先</span><span>顎のライン</span><span>エラ</span><span>頬</span><span>Vライン</span><span>引き上げ（左右）</span></dd></div>
+        <div class="group"><dt>形・サイズ</dt><dd><span>輪郭カーブ</span><span>頬の下（左右）</span><span>顔全体のサイズ</span><span>中顔面短縮</span></dd></div>
+        <div class="group"><dt>鼻</dt><dd><span>鼻のサイズ</span><span>小鼻の幅</span><span>鼻先</span><span>鼻すじ</span><span>鼻の長さ</span></dd></div>
+        <div class="group"><dt>口</dt><dd><span>口のサイズ</span><span>口の上下</span><span>上唇の厚み</span><span>下唇の厚み</span></dd></div>
+        <div class="group"><dt>しわ</dt><dd><span>ほうれい線</span><span>マリオネットライン</span></dd></div>
+        <div class="group"><dt>仕上げ</dt><dd><span>パーツ保護</span><span>影響範囲</span><span>点を表示</span></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKIN ================= -->
+<section id="skin" class="alt">
+  <div class="wrap product rev">
+    <div class="media reveal">
+      <div class="ba skin js-ba">
+        <img class="before" src="assets/ba/skin-before.jpg" alt="CosMake Skin をかける前" loading="lazy">
+        <img class="after" src="assets/ba/skin-after.jpg" alt="CosMake Skin をかけた後（肌がなめらかになっている）" loading="lazy">
+        <canvas class="vid" width="720" height="720" aria-hidden="true"></canvas>
+        <video class="src" src="assets/ba/skin.mp4" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+        <span class="bar"></span><span class="knob"></span>
+        <span class="tag l">BEFORE</span><span class="tag r">AFTER</span>
+        <input type="range" min="0" max="100" value="50" aria-label="補正前と補正後の境目">
+      </div>
+      <p class="cap"><span>なめらかさに加えて、明るさ・白さも上げた例</span><span>髪・メガネ・唇はそのまま</span></p>
+    </div>
+    <div>
+      <div class="pname"><b>CosMake Skin</b><span>肌補正</span></div>
+      <h2>肌はなめらかに。<br>色と陰影は、元のまま。</h2>
+      <p>顔の形と肌の色から補正する範囲を決めるので、髪・目・唇・衣装はぼかしません。初期設定では、肌の色・白さ・影の付き方を変えずに、細かいざらつきだけを取ります。</p>
+      <dl class="groups">
+        <div class="group"><dt>なめらかさ</dt><dd><span>強さ</span><span>質感を残す</span><span>範囲</span><span>色と陰影を保つ</span></dd></div>
+        <div class="group"><dt>気になる所</dt><dd><span>ムラ取り</span><span>シミ・ニキビ消し</span><span>テカリ抑え</span><span>くま</span></dd></div>
+        <div class="group"><dt>肌の色</dt><dd><span>肌の色温度</span><span>白さ</span><span>明るさ</span></dd></div>
+        <div class="group"><dt>立体感</dt><dd><span>シェーディング</span></dd></div>
+        <div class="group"><dt>範囲</dt><dd><span>肌色の判定</span><span>境目のぼかし</span><span>マスク表示</span></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APPS ================= -->
+<section id="apps">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">One license · two apps</p>
+      <h2>1 回買えば、<br><span class="nb">Premiere でも</span> <span class="nb">DaVinci Resolve でも。</span></h2>
+      <p>ソフトごとに買い直す必要はありません。<br>1 回のインストールで、両方のソフトにエフェクトが入ります。</p>
+    </div>
+    <div class="apps">
+      <div class="app pr reveal"><span class="logo">Pr</span><h3>Adobe Premiere</h3>
+        <p>エフェクトパネル → ビデオエフェクト → <code>CosMake</code> を、クリップにドラッグ。</p></div>
+      <div class="plus" aria-hidden="true">+</div>
+      <div class="app dv reveal"><span class="logo">Dv</span><h3>DaVinci Resolve</h3>
+        <p>カラーページの OpenFX → <code>CosMake</code> を、ノードにドラッグ。</p></div>
+    </div>
+    <div class="shared">
+      <div class="reveal"><h3>キー 1 本で PC 2 台</h3><p>登録した PC なら、Premiere と DaVinci Resolve のどちらでも使えます。PC を買い替えたら、古い PC の登録を外せば移せます。</p></div>
+      <div class="reveal"><h3>プリセットは共通</h3><p>気に入った設定を［プリセット］に保存すると、もう片方のソフトでもそのまま読み込めます。ファイルなので人に渡すこともできます。</p></div>
+      <div class="reveal"><h3>重ねがけもできる</h3><p>Face と Skin は別々のエフェクト。同じクリップに両方かけて、輪郭と肌をまとめて整えられます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STEPS ================= -->
+<section class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">How it works</p>
+      <h2>使い方は 3 ステップ</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="n">STEP 01</span><h3>エフェクトをかける</h3><p>クリップ（DaVinci ではノード）に CosMake Face か Skin をドラッグします。</p></div>
+      <div class="step reveal"><span class="n">STEP 02</span><h3><span class="btnmock">解析</span> を押す</h3><p>クリップの顔を読み取ります。長さによって数十秒〜数分。終わると、すぐに補正がかかります。</p></div>
+      <div class="step reveal"><span class="n">STEP 03</span><h3>スライダーで調整</h3><p>好みの強さに合わせて、気に入った設定は <span class="btnmock">プリセット</span> に保存。次のクリップからは読み込むだけ。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MATCH ================= -->
+<section id="match">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">CosMake Match</p>
+      <h2>被写体さんの「好み」に、<br><span class="nb">数値で合わせる。</span></h2>
+      <p>被写体さんに、いつものアプリで加工してもらった写真があれば、<br>それに近づく Face と Skin の数値を自動で探します。購入した方は無料で使えます。</p>
+    </div>
+    <div class="trio reveal">
+      <figure><img src="assets/ba/match-original.jpg" alt="元の映像のコマ" loading="lazy"><figcaption><b>01</b>元の映像</figcaption></figure>
+      <figure><img src="assets/ba/match-edit.jpg" alt="被写体さんがアプリで加工した写真" loading="lazy"><figcaption><b>02</b>被写体さんの加工</figcaption></figure>
+      <figure class="res"><img src="assets/ba/match-result.jpg" alt="CosMake Match で数値を合わせた結果" loading="lazy"><figcaption><b>03</b>CosMake Match で合わせた結果</figcaption></figure>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><span class="n">STEP 01</span><h3>元のコマを送る</h3><p>CosMake をかける前のコマを画像に書き出して、被写体さんに送ります。</p></div>
+      <div class="step reveal"><span class="n">STEP 02</span><h3>加工して返してもらう</h3><p>「このくらいが好き」というところまで、いつものアプリで加工してもらいます。</p></div>
+      <div class="step reveal"><span class="n">STEP 03</span><h3><span class="btnmock">Match</span> を押す</h3><p>2 枚の画像を入れると、1〜3 分でスライダーに数値が入ります。結果はプリセットとしても残ります。</p></div>
+    </div>
+    <p class="note" style="text-align:center;margin-top:18px">目を大きくする加工は合わせられません。写真全体の色のフィルターは、カラー補正の分としてお知らせします。</p>
+  </div>
+</section>
+
+<!-- ================= STORY ================= -->
+<section id="story">
+  <div class="wrap story">
+    <p class="eyebrow">Story</p>
+    <h2><span class="nb">撮る側が、</span><span class="nb">自分の編集のために</span><span class="nb">作りました。</span></h2>
+    <p>CosMake を作ったのは、香川でコスプレ専用スタジオ「もりすくスタジオ」を運営し、映像制作もしている、もりすくです。ふだんから人物、とくにコスプレの撮影を多く手がけています。</p>
+    <p>写真なら 1 枚ずつ整えられる顔と肌も、動画では 1 秒に何十コマもあり、手作業では追いつきません。撮影のたびに感じていたその手間を、いつもの編集ソフトの中で片付けたくて作ったのが CosMake です。</p>
+    <p>肌が気になる女性にも、もちろん男性にも。</p>
+    <p class="sign">もりすく <span>映像制作リコルト / もりすくスタジオ</span></p>
+  </div>
+</section>
+
+<!-- ================= PRICE ================= -->
+<section id="price">
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">Price</p>
+      <h2><span class="nb">買い切り。</span><span class="nb">月額料金はありません。</span></h2>
+      <p>どのプランも、Premiere と DaVinci Resolve の両方で使えます。</p>
+    </div>
+    <p class="salebar js-salebar" hidden></p>
+    <div class="prices">
+      <div class="pcard reveal">
+        <h3>CosMake Face</h3>
+        <p class="what">小顔</p>
+        <div class="yen"><s class="was js-was" data-p="face" hidden></s><span class="js-price" data-p="face">¥9,800</span><small>税込</small></div>
+        <p class="salenote js-salenote" hidden></p>
+        <p class="save"></p>
+        <ul><li>CosMake Face</li><li>Premiere・DaVinci Resolve 両対応</li><li>1 キーで PC 2 台</li></ul>
+        <a class="btn ghost js-buy" data-p="face" href="#price">Face を購入</a>
+      </div>
+      <div class="pcard best reveal">
+        <span class="rib">いちばんお得</span>
+        <h3>CosMake セット</h3>
+        <p class="what">Face ＋ Skin</p>
+        <div class="yen"><s class="was js-was" data-p="set" hidden></s><span class="js-price" data-p="set">¥14,800</span><small>税込</small></div>
+        <p class="salenote js-salenote" hidden></p>
+        <p class="save js-save">単品を 2 本買うより ¥4,800 お得</p>
+        <ul><li>CosMake Face ＋ CosMake Skin</li><li>Premiere・DaVinci Resolve 両対応</li><li>キー 1 本で 2 つとも・PC 2 台</li></ul>
+        <a class="btn lg js-buy" data-p="set" href="#price">セットを購入</a>
+      </div>
+      <div class="pcard reveal">
+        <h3>CosMake Skin</h3>
+        <p class="what">肌補正</p>
+        <div class="yen"><s class="was js-was" data-p="skin" hidden></s><span class="js-price" data-p="skin">¥9,800</span><small>税込</small></div>
+        <p class="salenote js-salenote" hidden></p>
+        <p class="save"></p>
+        <ul><li>CosMake Skin</li><li>Premiere・DaVinci Resolve 両対応</li><li>1 キーで PC 2 台</li></ul>
+        <a class="btn ghost js-buy" data-p="skin" href="#price">Skin を購入</a>
+      </div>
+    </div>
+    <p class="fine">決済は Stripe で行います。支払いが終わると、その画面でライセンスキーとダウンロードリンクが表示され、同じ内容がメールでも届きます。</p>
+  </div>
+</section>
+
+<!-- ================= TRIAL ================= -->
+<section id="trial" style="padding-top:0">
+  <div class="wrap">
+    <div class="trial reveal">
+      <div>
+        <p class="eyebrow">Free trial</p>
+        <h2><span class="nb">まずは、</span><span class="nb">自分の素材で</span><span class="nb">試してください。</span></h2>
+        <p>体験版は、製品版とまったく同じファイルです。すべての機能を、期限なしで試せます。</p>
+        <ul>
+          <li>違いは、映像に赤い × 印が出ることだけ</li>
+          <li>購入後にキーを入れると × 印が消えます（入れ直し不要）</li>
+          <li>Face も Skin も、両方のソフトで試せます</li>
+        </ul>
+        <a class="btn lg js-trial" href="#" target="_blank" rel="noopener">体験版をダウンロード</a>
+      </div>
+      <div class="xmark" aria-label="体験版の × 印のイメージ">
+        <img src="assets/ba/trial.jpg" alt="" loading="lazy">
+        <svg viewBox="0 0 160 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0L160 100M160 0L0 100" stroke="#ff2b2b" stroke-width="2.4" opacity=".85" vector-effect="non-scaling-stroke" style="stroke-width:5px"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPECS ================= -->
+<section class="alt">
+  <div class="wrap" style="max-width:860px">
+    <div class="sec-head"><p class="eyebrow">Requirements</p><h2>動作環境</h2></div>
+    <table class="specs">
+      <tr><th>OS</th><td>Windows 10 / 11（64 ビット）<br><span class="note">Mac は今のところ対応していません。</span></td></tr>
+      <tr><th>ソフト</th><td>Adobe Premiere、または DaVinci Resolve Studio<br><span class="note">動作確認: Premiere 26.x・DaVinci Resolve Studio 21</span></td></tr>
+      <tr><th>グラフィックボード</th><td>NVIDIA のグラフィックボードがあると速く動きます。<br><span class="note">なくても動きますが、プレビューの再生はカクつき、書き出しにも時間がかかります。DaVinci Resolve では［解析］も遅くなります（目安は 1 コマ約 1 秒）。</span></td></tr>
+      <tr><th>インターネット</th><td>ライセンスの登録時と、7 日ごとの確認に使います。<br><span class="note">つながらない日が続いても、21 日までは使えます。顔の解析にはインターネットを使いません。</span></td></tr>
+      <tr><th>言語</th><td>日本語</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head center"><p class="eyebrow">FAQ</p><h2>よくある質問</h2></div>
+    <div class="faq">
+      <details><summary>Premiere 用と DaVinci Resolve 用は別々に買うのですか？</summary><p>いいえ。どのプランも 1 回の購入で両方のソフトに使えます。インストーラーを 1 回実行すると、両方にエフェクトが入ります。</p></details>
+      <details><summary>ほうれい線は消せますか？</summary><p>Face の［ほうれい線］［マリオネットライン］で薄くできます。顔が大きく写っているほど、よく消えます。フル HD の画面で顔の幅が 150 ピクセルより小さいような引きの画では、消えきらずに薄くなる程度です。</p></details>
+      <details><summary>CosMake Match は別に買う必要がありますか？</summary><p>いいえ。Face・Skin・セットのどれを買った方も、購入後のダウンロードから無料で使えます。エフェクトの［Match］ボタンから開きます。</p></details>
+      <details><summary>体験版と製品版の違いは？</summary><p>映像に赤い × 印が出るかどうかだけです。機能の制限や期限はありません。購入後に［ライセンス］からキーを入れると、その場で × 印が消えます。</p></details>
+      <details><summary>何台の PC で使えますか？</summary><p>1 つのキーで 2 台までです。登録した PC では、Premiere と DaVinci Resolve のどちらでも使えます。3 台目に入れるときは、使わなくなった PC で［ライセンス］→「この PC の登録を解除」をしてください。</p></details>
+      <details><summary>Mac で使えますか？</summary><p>今のところ Windows だけです。</p></details>
+      <details><summary>NVIDIA のグラフィックボードがなくても使えますか？</summary><p>使えます。ただし処理が重くなり、プレビューの再生はカクつき、書き出しにも時間がかかります。DaVinci Resolve では［解析］が 1 コマ約 1 秒かかります（10 秒の動画で 5〜10 分）。購入前に体験版で確かめてください。</p></details>
+      <details><summary>スロー（速度を変えた）のクリップにも使えますか？</summary><p>使えます。Premiere では、速度を変えたクリップを［ネスト］して、CosMake はネストしたクリップにかけてください。時間補間がオプティカルフローでも、コマごとにぴったり合った補正になります（このページのトップの動画もこの方法です）。時間補間がフレームサンプリングなら、速度をいったん 100% に戻して［解析］してから速度を戻す方法でも使えます。</p></details>
+      <details><summary>顔が映っていないコマや、横を向いたコマはどうなりますか？</summary><p>顔が小さすぎる・横を向きすぎている場面では、顔を読み取れないことがあります。お手持ちの素材でどうなるか、体験版で確かめてからご購入ください。</p></details>
+      <details><summary>作った動画を仕事（商用）で使えますか？</summary><p>はい。購入された方ご本人が、仕事・趣味を問わず作品づくりに使えます。ライセンスキーやファイルを人に渡すことはできません。</p></details>
+      <details><summary>撮影した映像がどこかに送られることはありますか？</summary><p>ありません。顔の解析はお使いの PC の中だけで行います。インターネットを使うのはライセンスの確認だけで、送るのはキーと PC の識別番号です。</p></details>
+      <details><summary>アップデートはどうやって受け取りますか？</summary><p>購入時のメールにあるダウンロードリンクに、新しい版を置きます。ライセンスキーはそのまま使えます。</p></details>
+      <details><summary>返金はできますか？</summary><p>デジタル商品のため、購入後の返金は原則お受けしていません。体験版ですべての機能を試せるので、お使いの PC と素材で動くことを確かめてからご購入ください。</p></details>
+      <details><summary>領収書はもらえますか？</summary><p>決済後、Stripe から購入時のメールアドレスに領収書が届きます。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="final alt">
+  <div class="wrap">
+    <h2><span class="nb">撮った動画を、</span><br><span class="nb">いちばんいい顔で</span><span class="nb">残そう。</span></h2>
+    <p>Face と Skin のセットが、<span class="js-price" data-p="set">¥14,800</span> の買い切りで。<span class="js-sale-short" hidden></span></p>
+    <div class="hero-cta" style="justify-content:center">
+      <a class="btn lg js-buy" data-p="set" href="#price">セットを購入</a>
+      <a class="btn lg ghost" href="#trial">体験版を試す</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top" style="font-size:15px"><i style="width:20px;height:20px"></i>CosMake</a>
+    <nav>
+      <a href="legal.html#tokusho">特定商取引法に基づく表記</a>
+      <a href="legal.html#terms">利用規約</a>
+      <a href="legal.html#privacy">プライバシー</a>
+      <a class="js-contact" href="#">お問い合わせ</a>
+      <a class="js-x" href="#">X</a>
+      <a class="js-yt" href="#">YouTube</a>
+      <a class="js-dc" href="#">Discord</a>
+    </nav>
+    <p style="width:100%;margin:0">運営: <a href="https://rikoruto.jp/">映像制作リコルト</a>　© 2026 Rikoruto.<br>Adobe Premiere は Adobe の、DaVinci Resolve は Blackmagic Design の商標です。本製品はこれらの会社とは関係ありません。</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const C = window.LP_CONFIG || {};
+  const P = C.price || { face: 9800, skin: 9800, set: 14800 };
+  const S = C.stripe || {};
+  const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
+  const q = new URLSearchParams(location.search);
+  const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  // 発売前は false。localhost では ?open=1 で発売後の見た目を確かめられる
+  const open = !!C.open || (local && q.get("open") === "1");
+
+  // ----- 発売記念価格 -----
+  // "before" = 発売前・セール前（予告として出す） / "on" = セール中 / "" = なし・終わった
+  const SA = C.sale && C.sale.price ? C.sale : null;
+  const nowQ = local && q.get("now");
+  const now = nowQ ? new Date(/T/.test(nowQ) ? nowQ : nowQ + "T12:00:00+09:00") : new Date();
+  let sale = "";
+  if (SA && SA.end && now <= new Date(SA.end)) {
+    sale = open && !(SA.start && now < new Date(SA.start)) ? "on" : "before";
+  }
+  const cur = sale ? Object.assign({}, P, SA.price) : P;
+
+  // ----- 値段 -----
+  document.querySelectorAll(".js-price").forEach((el) => { if (cur[el.dataset.p] != null) el.textContent = yen(cur[el.dataset.p]); });
+  if (sale) {
+    document.querySelectorAll(".js-was").forEach((el) => {
+      const p = el.dataset.p;
+      if (SA.price[p] == null || SA.price[p] >= P[p]) return;
+      el.textContent = yen(P[p]); el.hidden = false;
+    });
+    document.querySelectorAll(".js-salenote").forEach((el) => {
+      const p = el.parentElement.querySelector(".js-price").dataset.p;
+      if (SA.price[p] == null) return;
+      el.textContent = sale === "on"
+        ? "発売記念価格・" + SA.endText + " まで。" + SA.afterText + "から " + yen(P[p])
+        : "発売記念価格。" + SA.afterText + "から " + yen(P[p]);
+      el.hidden = false;
+    });
+    document.querySelectorAll(".js-salebar").forEach((el) => {
+      el.innerHTML = "<b>" + (sale === "on" ? "発売記念セール中" : "発売記念セール") + "</b>" + (sale === "on" ? SA.endText + " まで" : SA.periodText);
+      el.hidden = false;
+    });
+    document.querySelectorAll(".js-sale-short").forEach((el) => {
+      el.textContent = sale === "on" ? "（発売記念価格・" + SA.endText + " まで）" : "（発売記念価格・" + SA.periodText + "）";
+      el.hidden = false;
+    });
+  }
+  const save = cur.face + cur.skin - cur.set;
+  document.querySelectorAll(".js-save").forEach((el) => { el.textContent = save > 0 ? "単品を 2 本買うより " + yen(save) + " お得" : ""; });
+
+  // ----- 購入ボタン -----
+  const soonText = C.launchText ? C.launchText + " 発売" : "近日発売";
+  document.querySelectorAll(".js-buy").forEach((el) => {
+    let link = S[el.dataset.p];
+    const code = sale === "on" && SA.promo && SA.promo[el.dataset.p];
+    if (link && code) link += (link.includes("?") ? "&" : "?") + "prefilled_promo_code=" + encodeURIComponent(code);
+    const inPrice = !!el.closest("#price");
+    if (open && link) { el.href = link; el.removeAttribute("aria-disabled"); return; }
+    if (inPrice) { el.removeAttribute("href"); el.setAttribute("aria-disabled", "true"); el.textContent = soonText; }
+    else { el.href = "#price"; el.textContent = "価格を見る"; }
+  });
+  if (!open) {
+    document.querySelectorAll(".js-soon").forEach((el) => { el.hidden = false; });
+    document.querySelectorAll(".js-soon-text").forEach((el) => { el.textContent = C.launchText ? "COMING SOON · " + C.launchText + " 発売" : "COMING SOON"; });
+  } else if (sale === "on") {
+    document.querySelectorAll(".js-soon").forEach((el) => { el.hidden = false; });
+    document.querySelectorAll(".js-soon-text").forEach((el) => { el.textContent = "SALE · " + SA.endText.replace(/（.）/, " ") + " まで"; });
+  }
+
+  // ----- 体験版 -----
+  document.querySelectorAll(".js-trial").forEach((a) => {
+    if (C.trialUrl) { a.href = C.trialUrl; return; }
+    a.removeAttribute("href"); a.removeAttribute("target"); a.setAttribute("aria-disabled", "true"); a.textContent = "体験版は近日公開";
+  });
+
+  // ----- 問い合わせ・SNS -----
+  document.querySelectorAll(".js-contact").forEach((a) => { if (C.contactEmail) a.href = "mailto:" + C.contactEmail; else a.hidden = true; });
+  [["js-x", C.xUrl], ["js-yt", C.youtubeUrl], ["js-dc", C.discordUrl]].forEach(([c, u]) => {
+    document.querySelectorAll("." + c).forEach((a) => { if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; } else a.hidden = true; });
+  });
+
+  // ----- ビフォーアフター -----
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".js-ba").forEach((ba) => {
+    const input = ba.querySelector("input");
+    const set = (v) => { v = Math.max(0, Math.min(100, v)); ba.style.setProperty("--pos", v + "%"); input.value = v; ba._pos = v; if (ba._draw) ba._draw(); };
+    let touched = false;
+    input.addEventListener("input", () => { touched = true; set(+input.value); });
+    // ドラッグ（つまみ以外の所を押しても、そこへ動く）
+    let drag = false;
+    const at = (e) => { const r = ba.getBoundingClientRect(); return ((e.clientX - r.left) / r.width) * 100; };
+    ba.addEventListener("pointerdown", (e) => { drag = true; touched = true; set(at(e)); ba.setPointerCapture && ba.setPointerCapture(e.pointerId); });
+    ba.addEventListener("pointermove", (e) => { if (drag) set(at(e)); });
+    ["pointerup", "pointercancel"].forEach((t) => ba.addEventListener(t, () => { drag = false; }));
+    // 初めて見えたとき、一度だけ左右に動かして「動かせる」ことを見せる
+    if (!reduce) {
+      const io = new IntersectionObserver((es) => {
+        if (!es[0].isIntersecting) return;
+        io.disconnect();
+        const keys = [[0, 50], [700, 22], [1500, 78], [2200, 50]];
+        const t0 = performance.now();
+        const step = (now) => {
+          if (touched) return;
+          const t = now - t0;
+          let i = 0; while (i < keys.length - 1 && t > keys[i + 1][0]) i++;
+          if (i >= keys.length - 1) return set(50);
+          const [ta, va] = keys[i], [tb, vb] = keys[i + 1];
+          const k = (t - ta) / (tb - ta), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+          set(va + (vb - va) * e);
+          requestAnimationFrame(step);
+        };
+        setTimeout(() => requestAnimationFrame(step), 400);
+      }, { threshold: .5 });
+      io.observe(ba);
+    }
+  });
+
+  // ----- トップの動画（左半分=元、右半分=補正後を、境目の位置で描き分ける）-----
+  document.querySelectorAll(".js-ba video.src").forEach((v) => {
+    const ba = v.closest(".js-ba"), cv = ba.querySelector("canvas.vid"), ctx = cv.getContext("2d");
+    const draw = () => {
+      if (v.readyState < 2 || !v.videoWidth) return;
+      const W = v.videoWidth / 2, H = v.videoHeight;
+      if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+      const x = Math.round(W * (ba._pos == null ? 50 : ba._pos) / 100);
+      ctx.drawImage(v, 0, 0, W, H, 0, 0, W, H);
+      if (x < W) ctx.drawImage(v, W + x, 0, W - x, H, x, 0, W - x, H);
+      cv.classList.add("on");
+    };
+    ba._draw = draw;
+    const tick = () => { draw(); if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(tick); else if (!v.paused) requestAnimationFrame(tick); };
+    v.addEventListener("loadeddata", draw);
+    v.addEventListener("play", () => { if (!v.requestVideoFrameCallback) requestAnimationFrame(tick); });
+    if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(tick);
+    // 見えている間だけ再生（動きを減らす設定の人には再生しない＝最初のコマのまま）
+    if (!reduce && "IntersectionObserver" in window) {
+      new IntersectionObserver((es) => { if (es[0].isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: .2 }).observe(ba);
+    }
+  });
+
+  // ----- スクロールで表示 -----
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  } else document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+})();
+</script>
+</body>
+</html>
