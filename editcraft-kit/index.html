@@ -485,10 +485,28 @@
   }
   const fmt = (d, o) => new Intl.DateTimeFormat("ja-JP", Object.assign({ timeZone: "Asia/Tokyo" }, o)).format(d);
   const when = (d) => d ? fmt(d, { month: "numeric", day: "numeric", weekday: "short" }) + " " + fmt(d, { hour: "numeric", minute: "2-digit" }) : "";
+  // 流入元: LP の URL の ?utm_source=x_ad（または ?ref=）を 7 日間覚えておき、
+  //   購入ボタンで Stripe に client_reference_id として渡す → 購入記録で「どこから来て買ったか」が分かる
+  const SRC_KEY = "ec_src", SRC_DAYS = 7;
+  const source = (function () {
+    const q = new URLSearchParams(location.search);
+    const clean = v => String(v || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 40);
+    const fresh = clean(q.get("utm_source") || q.get("ref"));
+    try {
+      if (fresh) { localStorage.setItem(SRC_KEY, JSON.stringify({ s: fresh, t: Date.now() })); return fresh; }
+      const saved = JSON.parse(localStorage.getItem(SRC_KEY) || "null");
+      if (saved && saved.s && Date.now() - saved.t < SRC_DAYS * 86400000) return clean(saved.s);
+    } catch (e) {}
+    return fresh;
+  })();
   // セール中はクーポンを最初から入れた決済画面を開く
-  const buyUrl = (sale) => !S.link ? "" : (sale && P.promoCode
-    ? S.link + (S.link.includes("?") ? "&" : "?") + "prefilled_promo_code=" + encodeURIComponent(P.promoCode)
-    : S.link);
+  const buyUrl = (sale) => {
+    if (!S.link) return "";
+    const params = [];
+    if (sale && P.promoCode) params.push("prefilled_promo_code=" + encodeURIComponent(P.promoCode));
+    if (source) params.push("client_reference_id=" + encodeURIComponent(source));
+    return params.length ? S.link + (S.link.includes("?") ? "&" : "?") + params.join("&") : S.link;
+  };
 
   // ----- price / sale state -----
   let shown = null;
