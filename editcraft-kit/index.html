@@ -44,6 +44,7 @@
   <div class="wrap">
     <div>
       <span class="badge js-promo-any"><i></i><span class="js-badge-text">LAUNCH SALE</span> <span class="js-sale-left"></span></span>
+      <p class="js-v11-only" hidden style="margin:10px 0 0"><span class="badge" style="color:#34d399;border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.08)"><i style="background:#34d399;box-shadow:0 0 8px #34d399"></i>v1.1 NEW · 複数人の自動カットに対応</span></p>
       <h1>Premiere Pro の<br>くり返し作業を、<br><em>1クリック</em>に。</h1>
       <p class="lede">無音カット、トランジション配置、モーション＋効果音、イージング、mogrt 管理、ズーム演出。編集者が毎日やる作業を、6つのツールにして1つのパネルにまとめました。AI に頼んで編集を進めることもできます。</p>
       <div class="hero-cta">
@@ -137,7 +138,7 @@
 <section id="tools">
   <div class="wrap">
     <div class="sec-head">
-      <p class="eyebrow">6 TOOLS · 1 PANEL</p>
+      <p class="eyebrow" data-v11="7 TOOLS · 1 PANEL">6 TOOLS · 1 PANEL</p>
       <h2>入っている6つのツール</h2>
       <p>どれも、毎日の編集で実際に使うために作ったツールです。</p>
     </div>
@@ -149,7 +150,7 @@
         <div class="txt">
           <div class="ttl"><img src="assets/tool-sc.png" alt=""><div><h3>Silence Cut</h3><small>無音・物音・つなぎ言葉の自動カット</small></div></div>
           <p>音声を解析して、不要な間を取り除いたシーケンスを新しく作ります。元のシーケンスには手を加えません。</p>
-          <ul><li>複数の音声トラックがある画面録画にも対応</li><li>文字起こし（任意）で「えー」「あの」や物音も検出</li><li>どれくらい間を残すか、細かく調整できる</li></ul>
+          <ul><li class="js-v11-only" hidden><b style="color:#34d399">NEW</b> 対談・実況など<b>複数人の会話</b>に対応。全員が黙った所だけカット</li><li>複数の音声トラックがある画面録画にも対応</li><li>文字起こし（任意）で「えー」「あの」や物音も検出</li><li>どれくらい間を残すか、細かく調整できる</li></ul>
         </div>
       </article>
 
@@ -227,6 +228,25 @@
           <div class="ttl"><img src="assets/tool-fc.png" alt=""><div><h3>Focus</h3><small>ズーム・パンのカメラワーク</small></div></div>
           <p>今のフレームを取り込んで、マウスで倍率と位置を決めるだけ。ズームやパンのキーフレームを作ります。解説動画や画面録画に。</p>
           <ul><li>動き方は「なめらか」「ゆっくり止まる」「等速」から選べる</li><li>ブラーの強さも指定でき、複数の動きを続けて登録できる</li></ul>
+        </div>
+      </article>
+
+      <article class="tool reveal js-v11-only" style="--c:#facc15" hidden>
+        <div class="vis"><span class="demo-tag">DEMO</span>
+          <svg viewBox="0 0 300 120">
+            <g font-family="monospace" font-size="11">
+              <rect x="14" y="14" width="272" height="26" rx="3" fill="rgba(250,204,21,.10)" stroke="rgba(250,204,21,.45)"/>
+              <text x="24" y="31" fill="#facc15">00:00:12:08</text><text x="112" y="31" fill="#e6edf7">テロップを大きく</text>
+              <rect x="14" y="46" width="272" height="26" rx="3" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.10)"/>
+              <text x="24" y="63" fill="#facc15">00:00:31:15</text><text x="112" y="63" fill="#e6edf7">ここの間を詰める</text>
+              <rect x="14" y="78" width="272" height="26" rx="3" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.10)"/>
+              <text x="24" y="95" fill="#facc15">00:01:04:02</text><text x="112" y="95" fill="#e6edf7">効果音を入れる</text>
+            </g>
+          </svg></div>
+        <div class="txt">
+          <div class="ttl"><img src="assets/tool-rv.png" alt=""><div><h3>修正メモ</h3><small>マーカーに修正内容を書いて、まとめてコピー</small></div></div>
+          <p>M キーでマーカーを打つと、タイムコードが一覧に並びます。横に直したい内容を書いて「全部コピー」を押すだけ。</p>
+          <ul><li>AI や編集者への修正指示が、そのまま作れる</li><li>書いた内容はマーカーに保存され、プロジェクトに残る</li></ul>
         </div>
       </article>
 
@@ -352,7 +372,7 @@
         <p class="cd-label js-cd-label"></p>
       </div>
       <ul class="incl">
-        <li>6つのツール（Silence Cut / Transition Stamp / SEtMotion / EaseCraft / Mogrt Manager / Focus）</li>
+        <li data-v11="7つのツール（Silence Cut / Transition Stamp / SEtMotion / EaseCraft / Mogrt Manager / Focus / 修正メモ）">6つのツール（Silence Cut / Transition Stamp / SEtMotion / EaseCraft / Mogrt Manager / Focus）</li>
         <li>AI 連携（MCP サーバー同梱）</li>
         <li>Windows 版・Mac 版の両方（1キーで2台まで）</li>
         <li>1.x のアップデートを無料で</li>
@@ -516,6 +536,27 @@
   }
   applyPrice();
 
+  // ----- v1.1 の紹介（config.js の v11At、無ければセール開始の時刻で自動に切り替える） -----
+  //   class="js-v11-only" … その時刻から表示 / data-v11="…" … その時刻から中身を差し替え
+  //   ほかに、本文の「Premiere Pro」→「Premiere」、ツールの数、パネルの版表示を書き換える
+  const v11At = C.v11At ? new Date(C.v11At) : (P.start || null);
+  let v11Done = false;
+  function applyV11() {
+    if (v11Done || !v11At || now() < v11At.getTime()) return;
+    v11Done = true;
+    document.querySelectorAll(".js-v11-only").forEach(el => { el.hidden = false; });
+    document.querySelectorAll("[data-v11]").forEach(el => { el.innerHTML = el.getAttribute("data-v11"); });
+    document.querySelectorAll(".ver").forEach(el => { if (el.textContent.trim() === "v1.0") el.textContent = "v1.1"; });
+    const swap = [["Premiere Pro", "Premiere"], ["6つのツール", "7つのツール"], ["6ツール", "7ツール"]];
+    const fix = (t) => swap.reduce((x, [a, b]) => x.split(a).join(b), t);
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(n => { const t = fix(n.nodeValue); if (t !== n.nodeValue) n.nodeValue = t; });
+    document.title = fix(document.title);
+  }
+  applyV11();
+
   // ----- countdown（予告中はセール開始まで、セール中は終了まで） -----
   const cd = document.querySelectorAll("#cd b");
   const left = document.querySelector(".js-sale-left");
@@ -524,6 +565,7 @@
   function tick() {
     const ph = phase();
     if (shown !== ph + "|" + ready()) applyPrice(); // 開始・終了の時刻をまたいだら表示を切り替える
+    applyV11();
     if (ph === "none") return;
     const target = ph === "sale" ? P.end : P.start;
     const s = Math.max(0, Math.floor((target.getTime() - now()) / 1000));
