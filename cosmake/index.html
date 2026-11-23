@@ -564,14 +564,16 @@ footer nav a:hover{color:var(--ink)}
   const yen = (n) => "¥" + Number(n).toLocaleString("ja-JP");
   const q = new URLSearchParams(location.search);
   const local = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-  // 発売前は false。localhost では ?open=1 で発売後の見た目を確かめられる
-  const open = !!C.open || (local && q.get("open") === "1");
+  const nowQ = local && q.get("now");
+  const now = nowQ ? new Date(/T/.test(nowQ) ? nowQ : nowQ + "T12:00:00+09:00") : new Date();
+  // 発売前は false。openAt（発売の日時）を過ぎると自動で発売後の表示になる（2026-11-23〜）。
+  // localhost では ?open=1 か ?now=2026-11-27 で発売後の見た目を確かめられる
+  const open = !!C.open || !!(C.openAt && now >= new Date(C.openAt)) || (local && q.get("open") === "1");
+  if (open) { const r = document.querySelector('meta[name="robots"]'); if (r) r.remove(); }   // 発売後は検索に出す
 
   // ----- 発売記念価格 -----
   // "before" = 発売前・セール前（予告として出す） / "on" = セール中 / "" = なし・終わった
   const SA = C.sale && C.sale.price ? C.sale : null;
-  const nowQ = local && q.get("now");
-  const now = nowQ ? new Date(/T/.test(nowQ) ? nowQ : nowQ + "T12:00:00+09:00") : new Date();
   let sale = "";
   if (SA && SA.end && now <= new Date(SA.end)) {
     sale = open && !(SA.start && now < new Date(SA.start)) ? "on" : "before";
