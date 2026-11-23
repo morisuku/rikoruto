@@ -152,6 +152,10 @@ h3{font-size:18px;line-height:1.5}
 .step .n{font:700 12px/1 var(--mono);letter-spacing:.14em;color:var(--accent2)}
 .step h3{margin:12px 0 8px}
 .step p{margin:0;font-size:14px}
+.samples{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
+@media (max-width:760px){.samples{grid-template-columns:1fr}}
+.samples .ba{aspect-ratio:1/1}
+.samples .cap b{color:var(--ink);font-weight:700}
 .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 28px}
 .trio figure{margin:0}
 .trio img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;border:1px solid var(--line2)}
@@ -351,6 +355,20 @@ footer nav a:hover{color:var(--ink)}
         <div class="group"><dt>範囲</dt><dd><span>肌色の判定</span><span>境目のぼかし</span><span>マスク表示</span></dd></div>
       </dl>
     </div>
+  </div>
+</section>
+
+<!-- ================= SAMPLES ================= -->
+<!-- ほかの人物のサンプル。assets/config.js の samples に並べた分だけ、カードを作って表示する（空なら隠したまま） -->
+<section id="samples" hidden>
+  <div class="wrap">
+    <div class="sec-head center">
+      <p class="eyebrow">Samples</p>
+      <h2>ほかの人でも、<br><span class="nb">こう変わります。</span></h2>
+      <p>年齢・性別・メガネ・笑顔など、いろいろな顔で試した例です。<br>左右にドラッグして比べられます。</p>
+    </div>
+    <div class="samples js-samples"></div>
+    <p class="note" style="text-align:center;margin-top:18px">サンプルの映像は、ストック素材（Envato Elements）に CosMake をかけたものです。</p>
   </div>
 </section>
 
@@ -641,6 +659,27 @@ footer nav a:hover{color:var(--ink)}
   [["js-x", C.xUrl], ["js-yt", C.youtubeUrl], ["js-dc", C.discordUrl]].forEach(([c, u]) => {
     document.querySelectorAll("." + c).forEach((a) => { if (u) { a.href = u; a.target = "_blank"; a.rel = "noopener"; } else a.hidden = true; });
   });
+
+  // ----- ほかの人物のサンプル（config.js の samples から作る）-----
+  const SM = Array.isArray(C.samples) ? C.samples.filter((x) => x && x.video) : [];
+  if (SM.length) {
+    const box = document.querySelector(".js-samples");
+    const esc = (t) => String(t || "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    box.innerHTML = SM.map((x) => `
+      <div class="reveal">
+        <div class="ba js-ba">
+          <img class="before" src="${esc(x.before)}" alt="${esc(x.label)}（補正前）" loading="lazy">
+          <img class="after" src="${esc(x.after)}" alt="${esc(x.label)}（補正後）" loading="lazy">
+          <canvas class="vid" width="720" height="720" aria-hidden="true"></canvas>
+          <video class="src" src="${esc(x.video)}" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+          <span class="bar"></span><span class="knob"></span>
+          <span class="tag l">BEFORE</span><span class="tag r">AFTER</span>
+          <input type="range" min="0" max="100" value="50" aria-label="補正前と補正後の境目">
+        </div>
+        <p class="cap"><span><b>${esc(x.label)}</b></span><span>${esc(x.fx)}</span></p>
+      </div>`).join("");
+    document.getElementById("samples").hidden = false;
+  }
 
   // ----- ビフォーアフター -----
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

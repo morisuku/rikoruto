@@ -50,4 +50,10 @@ window.LP_CONFIG = {
   discordUrl: "",
   xUrl: "",
   youtubeUrl: "",
+
+  // ほかの人物のサンプル（LP の「ほかの人でも、こう変わります。」の欄）。空なら欄ごと隠れる
+  //  動画は lp/tools/make_samples.py で作る（左半分=補正前・右半分=補正後、720x720 ずつ）
+  //  例: { video: "assets/samples/04.mp4", before: "assets/samples/04-before.jpg", after: "assets/samples/04-after.jpg",
+  //        label: "笑顔のほうれい線", fx: "Face＋Skin・ほうれい線 0.8" },
+  samples: [],
 };
