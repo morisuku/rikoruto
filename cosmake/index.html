@@ -692,8 +692,9 @@ footer nav a:hover{color:var(--ink)}
     v.addEventListener("loadeddata", draw);
     v.addEventListener("play", () => { if (!v.requestVideoFrameCallback) requestAnimationFrame(tick); });
     if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(tick);
-    // 見えている間だけ再生（動きを減らす設定の人には再生しない＝最初のコマのまま）
-    if (!reduce && "IntersectionObserver" in window) {
+    // 見えている間だけ再生。動画は商品の見本そのものなので、「アニメーションを減らす」設定の人にも再生する
+    // （Windows でアニメーション効果を切っていると、前は最初のコマで止まって静止画に見えた。2026-11-23）
+    if ("IntersectionObserver" in window) {
       new IntersectionObserver((es) => { if (es[0].isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: .2 }).observe(ba);
     }
   });
