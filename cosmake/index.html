@@ -91,10 +91,13 @@ h3{font-size:18px;line-height:1.5}
 .ba .knob::before{content:"‹ ›";color:#1d0f1a;font:700 20px/1 var(--disp);margin-top:-2px}
 .ba .tag{position:absolute;bottom:14px;font:600 11px/1 var(--mono);letter-spacing:.16em;color:#fff;background:rgba(0,0,0,.55);padding:7px 10px;border-radius:6px;pointer-events:none;backdrop-filter:blur(4px)}
 .ba .tag.l{left:14px}.ba .tag.r{right:14px}
-.ba canvas.vid{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s;pointer-events:none}
+.ba canvas.vid{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .4s;pointer-events:none;z-index:2}
 .ba canvas.vid.on{opacity:1}
-.ba video.src{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
-.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:ew-resize}
+/* 動画の元（左半分=補正前・右半分=補正後）。スマホのブラウザーは「見えていない動画」を自動再生しないので、
+   箱いっぱいに左半分（補正前）を見せて canvas の下に置く（2026-11-23。前は 2px・透明で、スマホでは止まったままだった） */
+.ba video.src{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:0 50%;pointer-events:none;z-index:1}
+.ba .bar,.ba .knob,.ba .tag{z-index:3}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:ew-resize;z-index:4}
 .ba:focus-within{outline:2px solid var(--accent);outline-offset:3px}
 .cap{font-size:13px;color:var(--muted);margin:12px 2px 0;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .hero .ba{aspect-ratio:1/1;box-shadow:0 40px 90px -30px rgba(176,124,255,.45)}
@@ -695,8 +698,11 @@ footer nav a:hover{color:var(--ink)}
     // 見えている間だけ再生。動画は商品の見本そのものなので、「アニメーションを減らす」設定の人にも再生する
     // （Windows でアニメーション効果を切っていると、前は最初のコマで止まって静止画に見えた。2026-11-23）
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver((es) => { if (es[0].isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: .2 }).observe(ba);
-    }
+      new IntersectionObserver((es) => { v._vis = es[0].isIntersecting; if (v._vis) v.play().catch(() => {}); else v.pause(); }, { threshold: .2 }).observe(ba);
+    } else { v._vis = true; v.play().catch(() => {}); }
+    // iPhone の低電力モードなどで自動再生が止められたときは、画面に最初に触れたときに再生する
+    const kick = () => { if (v._vis && v.paused) v.play().catch(() => {}); };
+    ["touchstart", "pointerdown", "scroll"].forEach((t) => addEventListener(t, kick, { passive: true }));
   });
 
   // ----- スクロールで表示 -----
