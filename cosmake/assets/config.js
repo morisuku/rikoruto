@@ -43,7 +43,7 @@ window.LP_CONFIG = {
   },
 
   // 体験版（× 印つき・期限なし）のダウンロード先。空なら「近日公開」
-  trialUrl: "",
+  trialUrl: "https://drive.google.com/file/d/1eJX1aWyt5FwUjocjNFaWaCcaFC40PToq/view?usp=sharing",   // 体験版 = 製品版と同じ zip（Drive「CosMake 配布」、11/24 最新版）
 
   // サポート・SNS（空ならリンクを出さない）
   contactEmail: "info@rikoruto.jp",
