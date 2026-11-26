@@ -56,8 +56,8 @@ window.LP_CONFIG = {
   //  例: { video: "assets/samples/04.mp4", before: "assets/samples/04-before.jpg", after: "assets/samples/04-after.jpg",
   //        label: "笑顔のほうれい線", fx: "Face＋Skin・ほうれい線 0.8" },
   samples: [
-    { video: "assets/samples/04.mp4", before: "assets/samples/04-before.jpg", after: "assets/samples/04-after.jpg", label: "年配の女性・肌のしわとシミ", fx: "Face＋Skin" },
-    { video: "assets/samples/06.mp4", before: "assets/samples/06-before.jpg", after: "assets/samples/06-after.jpg", label: "メガネの男性", fx: "Face＋Skin" },
+    // 11/27 非表示（ミスあり）: { video: "assets/samples/04.mp4", before: "assets/samples/04-before.jpg", after: "assets/samples/04-after.jpg", label: "年配の女性・肌のしわとシミ", fx: "Face＋Skin" },
+    // 11/27 非表示（ミスあり）: { video: "assets/samples/06.mp4", before: "assets/samples/06-before.jpg", after: "assets/samples/06-after.jpg", label: "メガネの男性", fx: "Face＋Skin" },
     { video: "assets/samples/07.mp4", before: "assets/samples/07-before.jpg", after: "assets/samples/07-after.jpg", label: "男性・頬のシミ", fx: "Face＋Skin" },
     { video: "assets/samples/12.mp4", before: "assets/samples/12-before.jpg", after: "assets/samples/12-after.jpg", label: "笑顔の女性", fx: "Face＋Skin" },
   ],
